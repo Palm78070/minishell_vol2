@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 00:22:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/16 00:28:31 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/21 13:04:45 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,15 @@ t_lst	*create_node(char *s)
 {
 	t_lst	*ptr;
 
-	if (s[0] == '\0')
+	if (s != NULL && s[0] == '\0')
 		return (NULL);
 	ptr = (t_lst *)malloc(sizeof(t_lst));
 	if (!ptr)
 		return (NULL);
-	ptr->data = ft_strdup(s);
+	if (s == NULL)
+		ptr->data = NULL;
+	else
+		ptr->data = ft_strdup(s);
 	ptr->next = NULL;
 	return (ptr);
 }

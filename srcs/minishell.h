@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/16 00:40:33 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/21 06:59:31 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ char	*trim_head(char *s, int delim_indx);
 int		check_state(char *s, int i);
 t_lst	*insert_str(t_msh *ms, t_lst *lst, int i);
 //lexer.c
+t_lst	*ft_token(t_msh *ms);
 t_lst	*ft_lexer(t_msh *ms);
 //linked_list.c
 void	free_list(t_lst *lst);
 void	print_list(t_lst *lst);
+t_lst	*create_node(char *s);
 t_lst	*insert_end(t_lst *lst, char *s);
 //clear.c
 void	ft_clear(t_msh *ms);

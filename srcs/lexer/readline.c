@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:17:21 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/16 00:42:30 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/22 15:13:43 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	rl_get(t_msh *ms)
 {
-	if (*(ms->line) && ms->line != NULL)
+	if (ms->line != NULL && *(ms->line))
 	{
 		free(ms->line);
 		ms->line = NULL;

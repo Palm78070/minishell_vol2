@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 01:00:33 by rthammat          #+#    #+#             */
-/*   Updated: 2022/02/25 01:02:15 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/21 16:47:13 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	len_s1 = 0;
 	len_s2 = 0;
 	p = NULL;
-	if (s1 == NULL || s2 == NULL)
+	if (s1 == NULL && s2 == NULL)
 		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
