@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:06:33 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/22 18:02:22 by rath             ###   ########.fr       */
+/*   Updated: 2023/01/23 21:23:59 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	dollar_sign(char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] && s[i] == '"')
+	while (s[i] && s[i] == '\'')
 		++i;
 	while (s[i] && ft_isspace(s[i]))
 		++i;
@@ -58,8 +58,11 @@ int	dollar_sign(char *s)
 
 int	quote_joinable(t_msh *ms, char *s)
 {
+	int	i;
+
+	i = 0;
 	ms->state = check_state(s, 0);
-	if (ms->state == S_QUOTE || (ms->state == D_QUOTE && !dollar_sign(s)))
+	if (ms->state == D_QUOTE || (ms->state == S_QUOTE && !dollar_sign(s)))
 		return (1);
 	return (0);
 }
@@ -137,16 +140,37 @@ t_lst	*insert_before_target(t_lst *lst, char *cmp, char *data)
 	return (lst);
 }
 
+char	*join_text(t_msh *ms, char *res_text, char *new_text)
+{
+	char	*tmp;
+
+	if (ms->state == S_QUOTE || ms->state == D_QUOTE)
+	{
+		tmp = new_text;
+		if (ms->state == S_QUOTE)
+			new_text = ft_strtrim(new_text, "'");
+		else
+			new_text = ft_strtrim(new_text, "\"");
+		//if (tmp)
+		//	free(tmp);
+	}
+	tmp = res_text;
+	res_text = ft_strjoin(res_text, new_text);
+	if (tmp)
+		free(tmp);
+	return (res_text);
+}
+
 t_lst	*quote_assemble(t_msh *ms, t_lst *lst)
 {
 	t_lst	*ptr;
 	t_lst	*new_node;
-	char	*tmp;
+	//char	*tmp;
 	char	*res;
 
 	ptr = lst;
 	new_node = create_node(NULL);
-	tmp = NULL;
+	//tmp = NULL;
 	res = NULL;
 	while (ptr)
 	{
@@ -154,7 +178,7 @@ t_lst	*quote_assemble(t_msh *ms, t_lst *lst)
 		{
 			while (ptr && quote_joinable(ms, ptr->data))
 			{
-				if (ms->state == S_QUOTE)
+				/*if (ms->state == S_QUOTE)
 					ptr->data = ft_strtrim(ptr->data, "'");
 				else
 					ptr->data = ft_strtrim(ptr->data, "\"");
@@ -162,10 +186,67 @@ t_lst	*quote_assemble(t_msh *ms, t_lst *lst)
 				res = ft_strjoin(res, ptr->data);
 				if (tmp)
 					free(tmp);
+				ft_remove_if_addr(&lst, ptr->data);*/
+				res = join_text(ms, res, ptr->data);
 				ft_remove_if_addr(&lst, ptr->data);
 				ptr = ptr->next;
 			}
 			if (ptr && *res && !quote_joinable(ms, ptr->data))
+				lst = insert_before_target(lst, ptr->data, res);
+			else if (ptr == NULL)
+				lst = insert_before_target(lst, NULL, res);
+			free(res);
+			res = NULL;
+		}
+		else
+			ptr = ptr->next;
+	}
+	return (lst);
+}
+
+int	is_all_plain_text(t_msh *ms, char *s)
+{
+	int	i;
+
+	i = 0;
+	if (s == NULL)
+		return (0);
+	while (s[i])
+	{
+		ms->state = check_state(s, i);
+		if (ms->state != 0)
+			return (0);
+		++i;
+	}
+	return (1);
+}
+
+t_lst	*plain_text_assemble(t_msh *ms, t_lst *lst)
+{
+	t_lst	*ptr;
+	t_lst	*new_node;
+	//char	*tmp;
+	char	*res;
+
+	ptr = lst;
+	new_node = create_node(NULL);
+	//tmp = NULL;
+	res = NULL;
+	while (ptr)
+	{
+		if (is_all_plain_text(ms, ptr->data))
+		{
+			while (ptr && is_all_plain_text(ms, ptr->data))
+			{
+				/*tmp = res;
+				res = ft_strjoin(res, ptr->data);
+				if (tmp)
+					free(tmp);*/
+				res = join_text(ms, res, ptr->data);
+				ft_remove_if_addr(&lst, ptr->data);
+				ptr = ptr->next;
+			}
+			if (ptr && *res && !is_all_plain_text(ms, ptr->data))
 				lst = insert_before_target(lst, ptr->data, res);
 			else if (ptr == NULL)
 				lst = insert_before_target(lst, NULL, res);
@@ -184,5 +265,6 @@ t_lst	*ft_lexer(t_msh *ms)
 
 	lst = ft_token(ms);
 	lst = quote_assemble(ms, lst);
+	lst = plain_text_assemble(ms, lst);
 	return (lst);
 }
