@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 00:22:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/21 13:04:45 by rath             ###   ########.fr       */
+/*   Updated: 2023/01/25 00:57:17 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 void	free_list(t_lst *lst)
 {
-	if (lst == NULL)
+	t_lst	*tmp;
+	tmp = lst;
+	while (tmp)
 	{
-		free(lst);
-		lst = NULL;
-		return ;
+		lst = lst->next;
+		if (tmp->data)
+			free(tmp->data);
+		free(tmp);
+		tmp = lst;	
 	}
-	free(lst->data);
-	lst->data = NULL;
-	free_list(lst->next);
 }
 
 void	print_list(t_lst *lst)
