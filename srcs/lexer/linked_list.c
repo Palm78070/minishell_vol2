@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 00:22:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/25 00:57:17 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/25 01:23:19 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,3 @@ t_lst	*insert_end(t_lst *lst, char *s)
 	lst->next = insert_end(lst->next, s);
 	return (lst);
 }
-/*
-int	main(void)
-{
-	t_lst	*lst;
-
-	lst = (t_lst *)malloc(sizeof(t_lst));
-	if (!lst)
-		exit(1);
-	lst = NULL;
-	lst = insertEnd(lst, "abc");
-	lst = insertEnd(lst, "def");
-	lst = insertEnd(lst, "ghi");
-	lst = insertEnd(lst, "jk");
-	print_list(lst);
-	free_list(lst);
-	return (0);
-}*/

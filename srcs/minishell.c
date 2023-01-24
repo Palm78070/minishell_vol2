@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:44:51 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/25 00:56:33 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/25 03:31:24 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(void)
 	/*free(ms->line);
 	ms->line = NULL;
 	ms->line = get_next_line(fd);
-	free(ms->line);
-	ft_clear(ms);*/
+	free(ms->line);*/
+	ft_clear(ms);
 	return (0);
 }

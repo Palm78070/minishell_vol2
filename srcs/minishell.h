@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/24 19:55:20 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/25 03:28:59 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,18 @@ t_lst	*token_space(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_pipe(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_redirect(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_double_sign(t_msh *ms, t_lst *lst, int *index);
+//token_assemble_utils.c
+int	dollar_sign(char *s);
+int	quote_joinable(t_msh *ms, char *s);
+void	ft_insert_if_addr(t_lst **lst, char *cmp, char *data);
+t_lst	*insert_before_target(t_lst *lst, char *cmp, char *data);
+int	is_all_plain_text(t_msh *ms, char *s);
+//token_assemble
+void	ft_remove_if_addr(t_lst **lst, char *data);
+char	*join_text(t_msh *ms, char *res_text, char *data);
+t_lst	*insert_new_token(t_msh *ms, t_lst *lst, char *res, t_lst *ptr);
+t_lst	*quote_assemble(t_msh *ms, t_lst *lst);
+t_lst	*plain_text_assemble(t_msh *ms, t_lst *lst);
 //lexer_utils.c
 char	*trim_head(char *s, int delim_indx);
 int		check_state(char *s, int i);

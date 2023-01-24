@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:06:33 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/25 00:40:59 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/25 03:28:20 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_lst	*ft_token(t_msh *ms)
 	return (lst);
 }
 
-int	dollar_sign(char *s)
+/*int	dollar_sign(char *s)
 {
 	int	i;
 
@@ -184,7 +184,7 @@ int	is_all_plain_text(t_msh *ms, char *s)
 	return (1);
 }
 
-t_lst	*insert_new_node(t_msh *ms, t_lst *lst, char *res, t_lst *ptr)
+t_lst	*insert_new_token(t_msh *ms, t_lst *lst, char *res, t_lst *ptr)
 {
 	if (ptr && res && *res && !quote_joinable(ms, ptr->data))
 		lst = insert_before_target(lst, ptr->data, res);
@@ -214,7 +214,7 @@ t_lst	*quote_assemble(t_msh *ms, t_lst *lst)
 				res = join_text(ms, res, tmp->data);
 				ft_remove_if_addr(&lst, tmp->data);
 			}
-			lst = insert_new_node(ms, lst, res, ptr);
+			lst = insert_new_token(ms, lst, res, ptr);
 			if (res)
 				free(res);
 			res = NULL;
@@ -244,7 +244,7 @@ t_lst	*plain_text_assemble(t_msh *ms, t_lst *lst)
 				res = join_text(ms, res, tmp->data);
 				ft_remove_if_addr(&lst, tmp->data);
 			}
-			lst = insert_new_node(ms, lst, res, ptr);
+			lst = insert_new_token(ms, lst, res, ptr);
 			if (res && *res != '\0')
 				free(res);
 			res = NULL;
@@ -253,7 +253,7 @@ t_lst	*plain_text_assemble(t_msh *ms, t_lst *lst)
 			ptr = ptr->next;
 	}
 	return (lst);
-}
+}*/
 
 t_lst	*ft_lexer(t_msh *ms)
 {
