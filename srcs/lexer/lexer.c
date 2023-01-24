@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:06:33 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/23 21:23:59 by rath             ###   ########.fr       */
+/*   Updated: 2023/01/24 02:09:56 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,11 @@ char	*join_text(t_msh *ms, char *res_text, char *new_text)
 {
 	char	*tmp;
 
+	tmp = NULL;
 	if (ms->state == S_QUOTE || ms->state == D_QUOTE)
 	{
-		tmp = new_text;
+		if (new_text)
+			tmp = new_text;
 		if (ms->state == S_QUOTE)
 			new_text = ft_strtrim(new_text, "'");
 		else
@@ -159,49 +161,6 @@ char	*join_text(t_msh *ms, char *res_text, char *new_text)
 	if (tmp)
 		free(tmp);
 	return (res_text);
-}
-
-t_lst	*quote_assemble(t_msh *ms, t_lst *lst)
-{
-	t_lst	*ptr;
-	t_lst	*new_node;
-	//char	*tmp;
-	char	*res;
-
-	ptr = lst;
-	new_node = create_node(NULL);
-	//tmp = NULL;
-	res = NULL;
-	while (ptr)
-	{
-		if (quote_joinable(ms, ptr->data))
-		{
-			while (ptr && quote_joinable(ms, ptr->data))
-			{
-				/*if (ms->state == S_QUOTE)
-					ptr->data = ft_strtrim(ptr->data, "'");
-				else
-					ptr->data = ft_strtrim(ptr->data, "\"");
-				tmp = res;
-				res = ft_strjoin(res, ptr->data);
-				if (tmp)
-					free(tmp);
-				ft_remove_if_addr(&lst, ptr->data);*/
-				res = join_text(ms, res, ptr->data);
-				ft_remove_if_addr(&lst, ptr->data);
-				ptr = ptr->next;
-			}
-			if (ptr && *res && !quote_joinable(ms, ptr->data))
-				lst = insert_before_target(lst, ptr->data, res);
-			else if (ptr == NULL)
-				lst = insert_before_target(lst, NULL, res);
-			free(res);
-			res = NULL;
-		}
-		else
-			ptr = ptr->next;
-	}
-	return (lst);
 }
 
 int	is_all_plain_text(t_msh *ms, char *s)
@@ -221,16 +180,60 @@ int	is_all_plain_text(t_msh *ms, char *s)
 	return (1);
 }
 
-t_lst	*plain_text_assemble(t_msh *ms, t_lst *lst)
+t_lst	*insert_new_node(t_msh *ms, t_lst *lst, char *res, t_lst *ptr)
+{
+	if (ptr && *res && !quote_joinable(ms, ptr->data))
+		lst = insert_before_target(lst, ptr->data, res);
+	else if (ptr && *res && !is_all_plain_text(ms, ptr->data))
+		lst = insert_before_target(lst, ptr->data, res);
+	else if (ptr == NULL)
+		lst = insert_before_target(lst, NULL, res);
+	return (lst);
+}
+
+t_lst	*quote_assemble(t_msh *ms, t_lst *lst)
 {
 	t_lst	*ptr;
 	t_lst	*new_node;
-	//char	*tmp;
 	char	*res;
 
 	ptr = lst;
 	new_node = create_node(NULL);
-	//tmp = NULL;
+	res = NULL;
+	while (ptr)
+	{
+		if (quote_joinable(ms, ptr->data))
+		{
+			while (ptr && quote_joinable(ms, ptr->data))
+			{
+				res = join_text(ms, res, ptr->data);
+				ft_remove_if_addr(&lst, ptr->data);
+				ptr = ptr->next;
+			}
+			/*if (ptr && *res && !quote_joinable(ms, ptr->data))
+				lst = insert_before_target(lst, ptr->data, res);
+			else if (ptr == NULL)
+				lst = insert_before_target(lst, NULL, res);
+			free(res);
+			res = NULL;*/
+			lst = insert_new_node(ms, lst, res, ptr);
+			free(res);
+			res = NULL;
+		}
+		else
+			ptr = ptr->next;
+	}
+	return (lst);
+}
+
+t_lst	*plain_text_assemble(t_msh *ms, t_lst *lst)
+{
+	t_lst	*ptr;
+	t_lst	*new_node;
+	char	*res;
+
+	ptr = lst;
+	new_node = create_node(NULL);
 	res = NULL;
 	while (ptr)
 	{
@@ -238,18 +241,15 @@ t_lst	*plain_text_assemble(t_msh *ms, t_lst *lst)
 		{
 			while (ptr && is_all_plain_text(ms, ptr->data))
 			{
-				/*tmp = res;
-				res = ft_strjoin(res, ptr->data);
-				if (tmp)
-					free(tmp);*/
 				res = join_text(ms, res, ptr->data);
 				ft_remove_if_addr(&lst, ptr->data);
 				ptr = ptr->next;
 			}
-			if (ptr && *res && !is_all_plain_text(ms, ptr->data))
+			/*if (ptr && *res && !is_all_plain_text(ms, ptr->data))
 				lst = insert_before_target(lst, ptr->data, res);
 			else if (ptr == NULL)
-				lst = insert_before_target(lst, NULL, res);
+				lst = insert_before_target(lst, NULL, res);*/
+			lst = insert_new_node(ms, lst, res, ptr);
 			free(res);
 			res = NULL;
 		}
