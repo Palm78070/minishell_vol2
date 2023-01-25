@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/25 03:28:59 by rath             ###   ########.fr       */
+/*   Updated: 2023/01/25 15:27:17 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_msh
 	char				*line;
 	struct sigaction	sa;
 	int					state;
+	char	*dummy;
 }	t_msh;
 
 void	ft_handler(int signum);

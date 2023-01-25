@@ -19,6 +19,8 @@ int	quote_joinable(t_msh *ms, char *s)
 	int	i;
 
 	i = 0;
+	if (s == NULL)
+		return (0);
 	ms->state = check_state(s, 0);
 	if (ms->state == D_QUOTE || (ms->state == S_QUOTE && !dollar_sign(s)))
 		return (1);

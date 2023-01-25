@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:44:51 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/25 03:31:24 by rath             ###   ########.fr       */
+/*   Updated: 2023/01/25 18:08:14 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_handler(int signum)
 
 //int	main(void)
 //int	main(int argc, char **argv)
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_lst	*lst;
 
@@ -45,19 +45,19 @@ int	main(void)
 	ms = (t_msh *)malloc(sizeof(t_msh));
 	if (!ms)
 		ft_error("Fail to malloc struct", ms);
-	//if (argc != 2)
-	//	return (0);
+	if (argc != 2)
+		return (0);
 	// sigemptyset(&ms->sa.sa_mask);
 	// sigaddset(&ms->sa.sa_mask, SIGQUIT);
 	// ms->sa.sa_handler = ft_handler;
 	// sigaction(SIGQUIT, &ms->sa, 0);
-	//int	fd = open(argv[1], O_RDONLY);
+	int	fd = open(argv[1], O_RDONLY);
 	ms->line = "\0";
 	//while (ms->line != NULL)
 	while (1)
 	{
-		rl_get(ms);
-		//ms->line = get_next_line(fd);
+		//rl_get(ms);
+		ms->line = get_next_line(fd);
 		//printf("ms->line %s\n", ms->line);
 		if (ms->line && is_exit(ms->line))
 			break ;
@@ -66,12 +66,12 @@ int	main(void)
 		//printf("test ms->line %s\n", ms->line);
 		print_list(lst);
 		free_list(lst);
-		//break ;
+		break ;
 	}
-	/*free(ms->line);
+	free(ms->line);
 	ms->line = NULL;
 	ms->line = get_next_line(fd);
-	free(ms->line);*/
+	free(ms->line);
 	ft_clear(ms);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 00:18:47 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/20 18:53:17 by rath             ###   ########.fr       */
+/*   Updated: 2023/01/25 22:29:26 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ char	*trim_head(char *s, int delim_indx)
 
 	i = -1;
 	len = ft_strlen(s) - delim_indx;
+	if (len <= 0)
+	{
+		free(s);
+		return (NULL);
+	}
 	res = (char *)malloc(sizeof(char) * len);
 	if (!res)
 		return (NULL);

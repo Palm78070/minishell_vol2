@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:06:33 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/25 03:28:20 by rath             ###   ########.fr       */
+/*   Updated: 2023/01/25 22:32:11 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,12 +255,94 @@ t_lst	*plain_text_assemble(t_msh *ms, t_lst *lst)
 	return (lst);
 }*/
 
+int	can_insert_token(t_msh *ms, t_lst *curr, int (*f)(t_msh *, char *))
+{
+	if ((ms->dummy && curr->next && !f(ms, curr->next->data)) || curr->next == NULL)
+	{
+		if (ms->dummy)
+			return (1);
+	}
+	return (0);
+}
+
+void	ft_remove_and_join(t_lst **lst, t_msh *ms, int (*f)(t_msh *, char *))
+{
+	t_lst	*curr;
+	t_lst	*new_node;
+	int	is_return;
+
+	curr = *lst;
+	new_node = NULL;
+	is_return = 0;
+	if (lst == NULL || *lst == NULL)
+		return ;
+	if (f(ms, curr->data))
+	{
+		ms->dummy = join_text(ms, ms->dummy, curr->data);
+		if ((ms->dummy && curr->next && !f(ms, curr->next->data)) || (curr->next == NULL && ms->dummy))
+		{
+			new_node = create_node(ms->dummy);
+			new_node->next = curr->next;
+			*lst = new_node;
+			free(ms->dummy);
+			ms->dummy = NULL;
+			is_return = 1;
+		}
+		else
+			*lst = curr->next;
+		free(curr->data);
+		free(curr);
+		if (is_return)
+			return ;
+		ft_remove_and_join(lst, ms, f);
+	}
+	else
+		ft_remove_and_join(&curr->next, ms, f);
+}
+
+t_lst	*dummy(t_msh *ms, t_lst *lst)
+{
+	t_lst	*ptr;
+	//t_lst	*tmp;
+	//char	*res;
+
+	ptr = lst;
+	ms->dummy = NULL;
+	//res = NULL;
+	while (ptr)
+	{
+		if (quote_joinable(ms, ptr->data))
+		{
+			while (ptr && quote_joinable(ms, ptr->data))
+			{
+				//tmp = ptr;
+				//ptr = ptr->next;
+				ft_remove_and_join(&lst, ms, &quote_joinable);
+				ptr = lst;
+				//break ;
+				//res = join_text(ms, res, tmp->data);
+				//ft_remove_if_addr(&lst, tmp->data);
+			}
+			//print_list(lst);
+			//break ;
+			//lst = insert_new_token(ms, lst, res, ptr);
+			//if (res)
+			//	free(res);
+			//res = NULL;
+		}
+		else
+			ptr = ptr->next;
+	}
+	return (lst);
+}
+
 t_lst	*ft_lexer(t_msh *ms)
 {
 	t_lst *lst;
 
 	lst = ft_token(ms);
-	lst = quote_assemble(ms, lst);
-	lst = plain_text_assemble(ms, lst);
+	lst = dummy(ms, lst);
+	//lst = quote_assemble(ms, lst);
+	//lst = plain_text_assemble(ms, lst);
 	return (lst);
 }
