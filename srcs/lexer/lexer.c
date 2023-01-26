@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:06:33 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/25 22:32:11 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/26 14:05:54 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,50 +42,7 @@ t_lst	*ft_token(t_msh *ms)
 	return (lst);
 }
 
-/*int	dollar_sign(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] && s[i] == '\'')
-		++i;
-	while (s[i] && ft_isspace(s[i]))
-		++i;
-	if (s[i] == '$')
-		return (1);
-	return (0);
-}
-
-int	quote_joinable(t_msh *ms, char *s)
-{
-	int	i;
-
-	i = 0;
-	ms->state = check_state(s, 0);
-	if (ms->state == D_QUOTE || (ms->state == S_QUOTE && !dollar_sign(s)))
-		return (1);
-	return (0);
-}
-
-void	ft_remove_if_addr(t_lst **lst, char *data)
-{
-	t_lst	*curr;
-
-	curr = *lst;
-	if (lst == NULL || *lst == NULL)
-		return ;
-	if (curr->data == data)
-	{
-		*lst = curr->next;
-		free(curr->data);
-		free(curr);
-		ft_remove_if_addr(lst, data);
-	}
-	else
-		ft_remove_if_addr(&curr->next, data);
-}
-
-void	ft_insert_if_addr(t_lst **lst, char *cmp, char *data)
+void	ft_remove_and_join(t_lst **lst, char *check_point, t_msh *ms, int (*f)(t_msh *, char *))
 {
 	t_lst	*curr;
 	t_lst	*new_node;
@@ -94,244 +51,95 @@ void	ft_insert_if_addr(t_lst **lst, char *cmp, char *data)
 	new_node = NULL;
 	if (lst == NULL || *lst == NULL)
 		return ;
-	if (curr->next->data == cmp)
+	if (f(ms, curr->data) && curr->next && curr->next->data != check_point)
 	{
-		new_node = create_node(data);
-		new_node->next = curr->next;
-		*lst = new_node;
+		ms->dummy = join_text(ms, ms->dummy, curr->data);
+		if ((ms->dummy && curr->next && !f(ms, curr->next->data)) || (curr->next == NULL && ms->dummy))
+		{
+			if (curr->next)
+				check_point = curr->next->data;
+			new_node = create_node(ms->dummy);
+			new_node->next = curr->next;
+			*lst = new_node;
+			free(ms->dummy);
+			ms->dummy = NULL;
+		}
+		else
+			*lst = curr->next;
 		free(curr->data);
 		free(curr);
-		ft_insert_if_addr(&((*lst)->next->next), cmp, data);
+		ft_remove_and_join(lst, check_point, ms, f);
 	}
 	else
-		ft_insert_if_addr(&curr->next, cmp, data);
+		ft_remove_and_join(&curr->next, check_point, ms, f);
 }
 
-t_lst	*insert_before_target(t_lst *lst, char *cmp, char *data)
+t_lst	*dummy(t_msh *ms, t_lst *lst, int (*f)(t_msh *, char *))
 {
-	t_lst	*tmp;
-	t_lst	*new_node;
+	t_lst	*ptr;
+	char	*check_point;
 
-	if (cmp == NULL)
+	ptr = lst;
+	ms->dummy = NULL;
+	check_point = NULL;
+
+	while (ptr)
 	{
-		lst = insert_end(lst, data);
-		return (lst);
-	}
-	new_node = create_node(data);
-	tmp = lst;
-	if (lst == NULL)
-		return (NULL);
-	while (tmp)
-	{
-		if (tmp && tmp->data == cmp)
+		if (ptr && f(ms, ptr->data))
 		{
-			new_node->next = tmp;
-			lst = new_node;
+			while (ptr && f(ms, ptr->data))
+			{
+				ft_remove_and_join(&lst, check_point, ms, f);
+				ptr = lst;
+				break ;
+			}
 			break ;
 		}
-		if (tmp->next && tmp->next->data == cmp)
-		{
-			new_node->next = tmp->next;
-			tmp->next = new_node;
-			break ;
-		}
-		tmp = tmp->next;
+		else
+			ptr = ptr->next;
 	}
 	return (lst);
 }
 
-char	*join_text(t_msh *ms, char *res_text, char *data)
-{
-	char	*tmp;
-	char	*new_text;
-
-	tmp = NULL;
-	new_text = NULL;
-	if (ms->state == S_QUOTE || ms->state == D_QUOTE)
-	{
-		if (data[1] == '\'' || data[1] == '"')
-			new_text = NULL;
-		else if (ms->state == S_QUOTE)
-			new_text = ft_strtrim(data, "'");
-		else
-			new_text = ft_strtrim(data, "\"");
-	}
-	else
-		new_text = data;
-	tmp = res_text;
-	res_text = ft_strjoin(res_text, new_text);
-	if (new_text && (ms->state == S_QUOTE || ms->state == D_QUOTE))
-		free(new_text);
-	if (tmp && *tmp != '\0')
-		free(tmp);
-	return (res_text);
-}
-
-int	is_all_plain_text(t_msh *ms, char *s)
+int	is_blank_quote(t_msh *ms, char *s)
 {
 	int	i;
+	char	quote;
 
 	i = 0;
-	if (s == NULL)
-		return (0);
+	quote = 0;
+	if (ms->state == S_QUOTE)
+		quote = '\'';
+	else if (ms->state == D_QUOTE)
+		quote = '"';
 	while (s[i])
 	{
-		ms->state = check_state(s, i);
-		if (ms->state != 0)
+		if (s[i] != quote)
 			return (0);
 		++i;
 	}
 	return (1);
 }
 
-t_lst	*insert_new_token(t_msh *ms, t_lst *lst, char *res, t_lst *ptr)
-{
-	if (ptr && res && *res && !quote_joinable(ms, ptr->data))
-		lst = insert_before_target(lst, ptr->data, res);
-	else if (ptr && res && *res && !is_all_plain_text(ms, ptr->data))
-		lst = insert_before_target(lst, ptr->data, res);
-	else if (ptr == NULL)
-		lst = insert_before_target(lst, NULL, res);
-	return (lst);
-}
-
-t_lst	*quote_assemble(t_msh *ms, t_lst *lst)
+t_lst	*remove_blank_quote(t_msh *ms, t_lst *lst)
 {
 	t_lst	*ptr;
-	t_lst	*tmp;
-	char	*res;
 
 	ptr = lst;
-	res = NULL;
 	while (ptr)
 	{
-		if (quote_joinable(ms, ptr->data))
+		printf("ptr->data %s\n", ptr->data);
+		if (ptr && is_blank_quote(ms, ptr->data))
 		{
-			while (ptr && quote_joinable(ms, ptr->data))
-			{
-				tmp = ptr;
-				ptr = ptr->next;
-				res = join_text(ms, res, tmp->data);
-				ft_remove_if_addr(&lst, tmp->data);
-			}
-			lst = insert_new_token(ms, lst, res, ptr);
-			if (res)
-				free(res);
-			res = NULL;
+			printf("xxx\n");
+			ft_remove_if_addr(&lst, ptr->data);	
+			ptr = lst;
 		}
 		else
+		{
+			printf("ptr->data2 %s\n", ptr->data);
 			ptr = ptr->next;
-	}
-	return (lst);
-}
-
-t_lst	*plain_text_assemble(t_msh *ms, t_lst *lst)
-{
-	t_lst	*ptr;
-	t_lst	*tmp;
-	char	*res;
-
-	ptr = lst;
-	res = NULL;
-	while (ptr)
-	{
-		if (ptr && is_all_plain_text(ms, ptr->data))
-		{
-			while (ptr && is_all_plain_text(ms, ptr->data))
-			{
-				tmp = ptr;
-				ptr = ptr->next;
-				res = join_text(ms, res, tmp->data);
-				ft_remove_if_addr(&lst, tmp->data);
-			}
-			lst = insert_new_token(ms, lst, res, ptr);
-			if (res && *res != '\0')
-				free(res);
-			res = NULL;
 		}
-		else
-			ptr = ptr->next;
-	}
-	return (lst);
-}*/
-
-int	can_insert_token(t_msh *ms, t_lst *curr, int (*f)(t_msh *, char *))
-{
-	if ((ms->dummy && curr->next && !f(ms, curr->next->data)) || curr->next == NULL)
-	{
-		if (ms->dummy)
-			return (1);
-	}
-	return (0);
-}
-
-void	ft_remove_and_join(t_lst **lst, t_msh *ms, int (*f)(t_msh *, char *))
-{
-	t_lst	*curr;
-	t_lst	*new_node;
-	int	is_return;
-
-	curr = *lst;
-	new_node = NULL;
-	is_return = 0;
-	if (lst == NULL || *lst == NULL)
-		return ;
-	if (f(ms, curr->data))
-	{
-		ms->dummy = join_text(ms, ms->dummy, curr->data);
-		if ((ms->dummy && curr->next && !f(ms, curr->next->data)) || (curr->next == NULL && ms->dummy))
-		{
-			new_node = create_node(ms->dummy);
-			new_node->next = curr->next;
-			*lst = new_node;
-			free(ms->dummy);
-			ms->dummy = NULL;
-			is_return = 1;
-		}
-		else
-			*lst = curr->next;
-		free(curr->data);
-		free(curr);
-		if (is_return)
-			return ;
-		ft_remove_and_join(lst, ms, f);
-	}
-	else
-		ft_remove_and_join(&curr->next, ms, f);
-}
-
-t_lst	*dummy(t_msh *ms, t_lst *lst)
-{
-	t_lst	*ptr;
-	//t_lst	*tmp;
-	//char	*res;
-
-	ptr = lst;
-	ms->dummy = NULL;
-	//res = NULL;
-	while (ptr)
-	{
-		if (quote_joinable(ms, ptr->data))
-		{
-			while (ptr && quote_joinable(ms, ptr->data))
-			{
-				//tmp = ptr;
-				//ptr = ptr->next;
-				ft_remove_and_join(&lst, ms, &quote_joinable);
-				ptr = lst;
-				//break ;
-				//res = join_text(ms, res, tmp->data);
-				//ft_remove_if_addr(&lst, tmp->data);
-			}
-			//print_list(lst);
-			//break ;
-			//lst = insert_new_token(ms, lst, res, ptr);
-			//if (res)
-			//	free(res);
-			//res = NULL;
-		}
-		else
-			ptr = ptr->next;
 	}
 	return (lst);
 }
@@ -341,7 +149,9 @@ t_lst	*ft_lexer(t_msh *ms)
 	t_lst *lst;
 
 	lst = ft_token(ms);
-	lst = dummy(ms, lst);
+	lst = remove_blank_quote(ms, lst);
+	lst = dummy(ms, lst, &quote_joinable);
+	lst = dummy(ms, lst, &is_all_plain_text);
 	//lst = quote_assemble(ms, lst);
 	//lst = plain_text_assemble(ms, lst);
 	return (lst);

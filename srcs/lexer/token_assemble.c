@@ -66,7 +66,7 @@ t_lst	*quote_assemble(t_msh *ms, t_lst *lst)
 	res = NULL;
 	while (ptr)
 	{
-		if (quote_joinable(ms, ptr->data))
+		if (ptr && quote_joinable(ms, ptr->data))
 		{
 			while (ptr && quote_joinable(ms, ptr->data))
 			{
