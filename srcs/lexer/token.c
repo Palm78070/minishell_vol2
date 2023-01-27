@@ -6,36 +6,11 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 00:44:00 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/25 22:26:06 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/27 19:43:09 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_lst	*token_quote(t_msh *ms, t_lst *lst, int *index)
-{
-	char	quote;
-	char	*str_tmp;
-	int		i;
-
-	i = *index;
-	if (i > 0)
-	{
-		lst = insert_str(ms, lst, i);
-		ms->line = trim_head(ms->line, --i);
-	}
-	quote = ms->line[i];
-	str_tmp = NULL;
-	++i;
-	while (ms->line[i] && ms->line[i] != quote)
-		++i;
-	str_tmp = ft_substr(ms->line, 0, ++i);
-	lst = insert_end(lst, str_tmp);
-	free(str_tmp);
-	ms->line = trim_head(ms->line, --i);
-	*index = 0;
-	return (lst);
-}
 
 t_lst	*token_space(t_msh *ms, t_lst *lst, int *index)
 {
@@ -99,5 +74,33 @@ t_lst	*token_double_sign(t_msh *ms, t_lst *lst, int *index)
 	ms->line = trim_head(ms->line, i - 1);
 	free(str_tmp);
 	*index = 0;
+	return (lst);
+}
+
+t_lst	*ft_token(t_msh *ms)
+{
+	int		i;
+	t_lst	*lst;
+
+	i = 0;
+	lst = NULL;
+	while (ms->line && ms->line[i])
+	{
+		ms->state = check_state(ms->line, i);
+		check_quote(ms->line, &i);
+		if (ms->state == SP)
+			lst = token_space(ms, lst, &i);
+		else if (ms->state == PIPE)
+			lst = token_pipe(ms, lst, &i);
+		else if (ms->state == REDIRECT_I || ms->state == REDIRECT_O)
+			lst = token_redirect(ms, lst, &i);
+		else if (ms->state == HEREDOC || ms->state == APPEND
+			|| ms->state == AND_IF || ms->state == OR_IF)
+			lst = token_double_sign(ms, lst, &i);
+		else
+			++i;
+	}
+	if (ms->line && ms->line[0])
+		lst = insert_str(ms, lst, i);
 	return (lst);
 }

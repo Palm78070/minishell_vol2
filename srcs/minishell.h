@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/26 14:00:46 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/27 19:42:24 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,21 @@ typedef struct s_msh
 
 void	ft_handler(int signum);
 //token.c
-t_lst	*token_quote(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_space(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_pipe(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_redirect(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_double_sign(t_msh *ms, t_lst *lst, int *index);
-//token_assemble_utils.c
-int	dollar_sign(char *s);
-int	quote_joinable(t_msh *ms, char *s);
-void	ft_insert_if_addr(t_lst **lst, char *cmp, char *data);
-t_lst	*insert_before_target(t_lst *lst, char *cmp, char *data);
-int	is_all_plain_text(t_msh *ms, char *s);
-//token_assemble
-void	ft_remove_if_addr(t_lst **lst, char *data);
-char	*join_text(t_msh *ms, char *res_text, char *data);
-t_lst	*insert_new_token(t_msh *ms, t_lst *lst, char *res, t_lst *ptr);
-t_lst	*quote_assemble(t_msh *ms, t_lst *lst);
-t_lst	*plain_text_assemble(t_msh *ms, t_lst *lst);
+t_lst	*ft_token(t_msh *ms);
 //lexer_utils.c
 char	*trim_head(char *s, int delim_indx);
 int		check_state(char *s, int i);
 t_lst	*insert_str(t_msh *ms, t_lst *lst, int i);
+//quote.c
+void	check_quote(char *line, int *indx);
+char	*ft_insert_char(char *old, char c);
+char	*include_quote(char *res, char *old, int *indx);
+char	*remove_quote(char *old);
 //lexer.c
-t_lst	*ft_token(t_msh *ms);
 t_lst	*ft_lexer(t_msh *ms);
 //linked_list.c
 void	free_list(t_lst *lst);
