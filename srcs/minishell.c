@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:44:51 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/27 19:02:56 by rath             ###   ########.fr       */
+/*   Updated: 2023/01/27 20:41:02 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_handler(int signum)
 }
 
 //int	main(void)
-/*int	main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_lst	*lst;
 
@@ -73,9 +73,9 @@ void	ft_handler(int signum)
 	free(ms->line);
 	ft_clear(ms);
 	return (0);
-}*/
+}
 
-int	main(void)
+/*int	main(void)
 {
 	t_lst	*lst;
 
@@ -103,4 +103,4 @@ int	main(void)
 	}
 	ft_clear(ms);
 	return (0);
-}
+}*/

@@ -42,8 +42,10 @@ char	*ft_insert_char(char *old, char c)
 	return (res);
 }
 
-char	*include_quote(char *res, char *old, int *indx)
+char	*check_include_quote(char *res, char *old, int *indx)
 {
+	if (!(old[*indx + 1] && old[*indx] == '\'' && old[*indx + 1] == '$'))
+		return (res);
 	res = ft_insert_char(res, old[*indx]);
 	*indx += 1;
 	while (old[*indx] && old[*indx] != '\'')
@@ -53,7 +55,8 @@ char	*include_quote(char *res, char *old, int *indx)
 	}
 	if (old[*indx] && old[*indx] == '\'')
 		res = ft_insert_char(res, old[*indx]);
-	*indx += 1;
+	if (old[*indx] && old[(*indx) + 1])
+		*indx += 1;
 	return (res);
 }
 
@@ -71,8 +74,7 @@ char	*remove_quote(char *old)
 		if (old[i] == '\'' || old[i] == '"')
 		{
 			quote = old[i];
-			if (old[i + 1] && old[i] == '\'' && old[i + 1] == '$')
-				res = include_quote(res, old, &i);
+			res = check_include_quote(res, old, &i);
 			if (old[i] && (old[i] == '\'' || old[i] == '"'))
 				++i;
 			while (old[i] && old[i] != quote)
@@ -83,7 +85,6 @@ char	*remove_quote(char *old)
 		else
 			res = ft_insert_char(res, old[i++]);
 	}
-	if (old)
-		free(old);
+	free(old);
 	return (res);
 }
