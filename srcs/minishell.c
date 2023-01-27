@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:44:51 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/26 17:08:03 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/27 14:52:08 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,3 +74,33 @@ int	main(int argc, char **argv)
 	ft_clear(ms);
 	return (0);
 }
+
+/*int	main(void)
+{
+	t_lst	*lst;
+
+	lst = NULL;
+	ms = (t_msh *)malloc(sizeof(t_msh));
+	if (!ms)
+		ft_error("Fail to malloc struct", ms);
+	// sigemptyset(&ms->sa.sa_mask);
+	// sigaddset(&ms->sa.sa_mask, SIGQUIT);
+	// ms->sa.sa_handler = ft_handler;
+	// sigaction(SIGQUIT, &ms->sa, 0);
+	ms->line = "\0";
+	//while (ms->line != NULL)
+	while (1)
+	{
+		rl_get(ms);
+		//printf("ms->line %s\n", ms->line);
+		if (ms->line && is_exit(ms->line))
+			break ;
+		printf("input from readline %s\n", ms->line);
+		lst = ft_lexer(ms);
+		//printf("test ms->line %s\n", ms->line);
+		print_list(lst);
+		free_list(lst);
+	}
+	ft_clear(ms);
+	return (0);
+}*/

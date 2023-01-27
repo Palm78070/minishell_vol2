@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:06:33 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/26 16:10:45 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/27 15:10:10 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,6 @@ char	*ft_insert_char(char *old, char c)
 		len = 2;
 	else
 		len = ft_strlen(old) + 2;
-	printf("len %i\n", len);
 	res = (char *)malloc(sizeof(char) * len);
 	if (!res)
 		return (NULL);
@@ -188,18 +187,14 @@ char	*include_quote(char *old, int *indx)
 	res = NULL;
 	res = ft_insert_char(res, old[*indx]);
 	*indx += 1;
-	printf("res %s\n", res);
-	/*while (old[*indx] && old[*indx] != '\'')
+	while (old[*indx] && old[*indx] != '\'')
 	{
-		printf("first res %s\n", res);
 		res = ft_insert_char(res, old[*indx]);
 		*indx += 1;
 	}
-	printf("first res %s\n", res);
-	//if (old[*indx] && old[*indx] == '\'')
-	//	res = ft_insert_char(res, old[*indx]);
-	printf("first res %s\n", res);
-	*indx += 1;*/
+	if (old[*indx] && old[*indx] == '\'')
+		res = ft_insert_char(res, old[*indx]);
+	*indx += 1;
 	return (res);
 }
 
@@ -219,11 +214,12 @@ char	*remove_quote(char *old)
 			quote = old[i];
 			if (old[i + 1] && old[i] == '\'' && old[i + 1] == '$')
 				res = include_quote(old, &i);
-			printf("indx %i\n", i);
-			//handle '$VAR'
-			while (old[++i] && old[i] != quote)
-					res = ft_insert_char(res, old[i]);
-			++i;
+			if (old[i] && (old[i] == '\'' || old[i] == '"'))
+				++i;
+			while (old[i] && old[i] != quote)
+				res = ft_insert_char(res, old[i++]);
+			if (old[i])
+				++i;
 		}
 		else
 			res = ft_insert_char(res, old[i++]);
