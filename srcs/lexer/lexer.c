@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:06:33 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/27 15:10:10 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/27 18:28:35 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,13 +178,13 @@ char	*ft_insert_char(char *old, char c)
 	return (res);
 }
 
-char	*include_quote(char *old, int *indx)
+char	*include_quote(char *res, char *old, int *indx)
 {
-	char	*res;
+	//char	*res;
 
-	if (old == NULL)
-		return (NULL);
-	res = NULL;
+	//if (old == NULL)
+	//	return (NULL);
+	//res = NULL;
 	res = ft_insert_char(res, old[*indx]);
 	*indx += 1;
 	while (old[*indx] && old[*indx] != '\'')
@@ -213,7 +213,7 @@ char	*remove_quote(char *old)
 		{
 			quote = old[i];
 			if (old[i + 1] && old[i] == '\'' && old[i + 1] == '$')
-				res = include_quote(old, &i);
+				res = include_quote(res, old, &i);
 			if (old[i] && (old[i] == '\'' || old[i] == '"'))
 				++i;
 			while (old[i] && old[i] != quote)
