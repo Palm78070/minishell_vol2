@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:17:21 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/27 20:40:57 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/27 22:20:25 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	rl_get(t_msh *ms)
 	}
 	ms->line = readline("Enter command: ");
 	if (ms->line != NULL && *(ms->line))
-	{
 		add_history(ms->line);
+	if (!check_error_ok(ms->line))
+	{
+		//printf("syntax error\n");
+		rl_get(ms);
 	}
 }

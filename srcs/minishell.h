@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/27 19:42:24 by rath             ###   ########.fr       */
+/*   Updated: 2023/01/27 21:52:44 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_msh
 }	t_msh;
 
 void	ft_handler(int signum);
+//error.c
+int	check_error_ok(char *s);
 //token.c
 t_lst	*token_space(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_pipe(t_msh *ms, t_lst *lst, int *index);

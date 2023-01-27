@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:44:51 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/27 20:41:02 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/27 21:42:20 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_handler(int signum)
 }
 
 //int	main(void)
-int	main(int argc, char **argv)
+/*int	main(int argc, char **argv)
 {
 	t_lst	*lst;
 
@@ -73,9 +73,9 @@ int	main(int argc, char **argv)
 	free(ms->line);
 	ft_clear(ms);
 	return (0);
-}
+}*/
 
-/*int	main(void)
+int	main(void)
 {
 	t_lst	*lst;
 
@@ -87,11 +87,18 @@ int	main(int argc, char **argv)
 	// sigaddset(&ms->sa.sa_mask, SIGQUIT);
 	// ms->sa.sa_handler = ft_handler;
 	// sigaction(SIGQUIT, &ms->sa, 0);
-	ms->line = "\0";
+	ms->line = NULL;
 	//while (ms->line != NULL)
 	while (1)
 	{
+		//while (!check_error_ok(ms->line))
+		//	rl_get(ms);
 		rl_get(ms);
+		/*if (!check_error_ok(ms->line))
+		{
+			printf("syntax error\n");
+			continue ;
+		}*/
 		//printf("ms->line %s\n", ms->line);
 		if (ms->line && is_exit(ms->line))
 			break ;
@@ -103,4 +110,4 @@ int	main(int argc, char **argv)
 	}
 	ft_clear(ms);
 	return (0);
-}*/
+}
