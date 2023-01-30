@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:52:09 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/28 23:25:06 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/30 23:21:22 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,32 @@ int	pipe_error_ok(char *s)
 	return (is_ok);
 }
 
+int	double_arrow_error_ok(char *s, char c, int i)
+{
+	int	count;
+
+	count = 0;
+	while (s[i] && ft_isspace(s[i]))
+		++i;
+	if (s[i] == '\0')
+		printf("syntax error near unexpected token 'newline'\n");
+	if (s[i] && (s[i] == '<' || s[i] == '>'))
+		c = s[i];
+	while (s[i] && s[i++] == c)
+		++count;
+	if (count > 0)
+	{
+		i = 0;
+		printf("syntax error near unexpected token '");
+		while (i < count && i++ <= 2)
+			printf("%c", c);
+		printf("'\n");
+	}
+	if (s[i] == '\0' || count > 0)
+		return (-2);
+	return (1);
+}
+
 int	arrow_error_ok(char *s, char *c)
 {
 	int	i;
@@ -79,7 +105,7 @@ int	arrow_error_ok(char *s, char *c)
 		{
 			*c = s[i];
 			if (s[i + 1] && s[i] == *c && s[i + 1] == *c)
-				return (1);
+				return (double_arrow_error_ok(s, *c, i + 2));
 			while (s[++i] && ft_isspace(s[i]) && s[i] != '<' && s[i] != '>')
 				continue ;
 			if (s[i] && (s[i] == '<' || s[i] == '>'))

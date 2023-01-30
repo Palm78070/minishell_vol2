@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:16:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/30 19:44:10 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/30 22:40:07 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	count_arg_size(t_msh *ms, t_lst *lst)
 	}
 	return (count_arg);
 }
-
+/*
 char	*insert_words(int arg_size)
 {
 	char	*res;
@@ -56,4 +56,4 @@ char	*insert_words(int arg_size)
 	{
 		++i;
 	}
-}
+}*/
