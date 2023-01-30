@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:16:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/30 22:40:07 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/31 00:02:26 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	count_arg_size(t_msh *ms, t_lst *lst)
 	}
 	return (count_arg);
 }
-/*
-char	*insert_words(int arg_size)
+
+/*char	*insert_words(t_msh *ms, t_lst **lst, int arg_size)
 {
 	char	*res;
 	int	i;
@@ -54,6 +54,15 @@ char	*insert_words(int arg_size)
 		return (NULL);
 	while (i < arg_size)
 	{
+		res = ft_strdup((*lst)->data);
+		if (!res)
+			return (NULL);
+		remove_head_node(lst);
 		++i;
 	}
+	if (lst)
+		ms->state = check_state(lst->data, 0);
+	if (ms->state == PIPE)
+		remove_head_node(lst);
+	return (res);
 }*/

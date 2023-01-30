@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/30 19:44:20 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/30 23:57:09 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,13 @@ t_lst	*ft_lexer(t_msh *ms);
 //parsing.c
 int	count_simple_cmd(t_msh *ms, t_lst *lst);
 int	count_arg_size(t_msh *ms, t_lst *lst);
+char	*insert_words(t_msh *ms, t_lst **lst, int arg_size);
 //linked_list.c
 void	free_list(t_lst *lst);
 void	print_list(t_lst *lst);
 t_lst	*create_node(char *s);
 t_lst	*insert_end(t_lst *lst, char *s);
+void	remove_head_node(t_lst **lst);
 //clear.c
 void	ft_clear(t_msh *ms);
 void	ft_error(char *s, t_msh *ms);

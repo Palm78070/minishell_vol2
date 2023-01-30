@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:44:51 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/30 22:38:15 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/30 23:55:46 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	main(void)
 		lst = ft_lexer(ms);
 		//printf("test ms->line %s\n", ms->line);
 		print_list(lst);
-		/*int	cmd_size = count_simple_cmd(ms, lst);
+		int	cmd_size = count_simple_cmd(ms, lst);
 		char	**s_cmd = (char **)malloc(sizeof(char *) * cmd_size);
 		
 		int	i = 0;
@@ -115,9 +115,11 @@ int	main(void)
 			int arg_size = count_arg_size(ms, lst);
 			printf("arg_size %i\n", arg_size);
 			s_cmd[i] = (char *)malloc(sizeof(char) * arg_size);
-			s_cmd[i] = in_sert_word(arg_size);
+			s_cmd[i] = in_sert_word(ms, lst, arg_size);
+			printf("s_cmd[i] %s\n", s_cmd[0]);
+			break ;
 			++i;
-		}*/
+		}
 		free_list(lst);
 	}
 	ft_clear(ms);

@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 00:22:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/25 01:23:19 by rath             ###   ########.fr       */
+/*   Updated: 2023/01/30 23:51:02 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,20 @@ t_lst	*insert_end(t_lst *lst, char *s)
 	}
 	lst->next = insert_end(lst->next, s);
 	return (lst);
+}
+
+void	remove_head_node(t_lst **lst)
+{
+	t_lst	*curr;
+
+	curr = *lst;
+	if (lst == NULL && *lst == NULL)
+		return ;
+	else
+	{
+		*lst = curr->next;
+		free(curr->data);
+		free(curr);
+		return ;
+	}
 }
