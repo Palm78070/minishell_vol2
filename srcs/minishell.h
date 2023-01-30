@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/27 21:52:44 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/30 19:44:20 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ enum	e_state
 	HEREDOC = 8,
 	APPEND = 9,
 	AND_IF = 10,
-	OR_IF = 11
+	OR_IF = 11,
 };
 
 typedef struct s_lst
@@ -44,6 +44,18 @@ typedef struct s_lst
 	char			*data;
 	struct s_lst	*next;
 }	t_lst;
+
+typedef struct s_cmd
+{
+	char	**s_cmd;
+}	t_cmd;
+
+typedef struct s_red
+{
+	char	*in;
+	char	*out;
+	char	*err;
+}	t_red;
 
 typedef struct s_msh
 {
@@ -74,6 +86,9 @@ char	*include_quote(char *res, char *old, int *indx);
 char	*remove_quote(char *old);
 //lexer.c
 t_lst	*ft_lexer(t_msh *ms);
+//parsing.c
+int	count_simple_cmd(t_msh *ms, t_lst *lst);
+int	count_arg_size(t_msh *ms, t_lst *lst);
 //linked_list.c
 void	free_list(t_lst *lst);
 void	print_list(t_lst *lst);
