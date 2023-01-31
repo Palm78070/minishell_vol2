@@ -32,27 +32,27 @@ void	ft_error(char *s, t_msh *ms)
 	exit(EXIT_FAILURE);
 }
 
-void	free_cmd_arg(t_cmd **s_cmd, int cmd_size)
+void	free_cmd_arg(t_msh *ms)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	if (s_cmd == NULL)
+	if (ms->s_cmd == NULL)
 		return ;
-	while (i < cmd_size)
+	while (i < ms->parse.cmd_size)
 	{
 		j = 0;
-		while (s_cmd[i][j].arg != NULL)
+		while (ms->s_cmd[i][j].arg != NULL)
 		{
-			if (s_cmd[i][j].arg)
-				free(s_cmd[i][j].arg);
+			if (ms->s_cmd[i][j].arg)
+				free(ms->s_cmd[i][j].arg);
 			++j;
 		}
-		free(s_cmd[i][j].arg);
-		free(s_cmd[i]);
+		free(ms->s_cmd[i][j].arg);
+		free(ms->s_cmd[i]);
 		++i;
 	}
-	free(s_cmd);
+	free(ms->s_cmd);
 }

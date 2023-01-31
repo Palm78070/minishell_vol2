@@ -110,20 +110,20 @@ int	main(void)
 		printf("input from readline %s\n", ms->line);
 		lst = ft_lexer(ms);
 		//printf("test ms->line %s\n", ms->line);
-		int	cmd_size = count_simple_cmd(ms, lst);
-		printf("cmd_size %i\n", cmd_size);
-		t_cmd	**s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * cmd_size);
-		
+		/*ms->parse.cmd_size = count_simple_cmd(ms, lst);
+		printf("cmd_size %i\n", ms->parse.cmd_size);
+		ms->s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * ms->parse.cmd_size);
 		int	i = 0;
-		while (i < cmd_size)
+		while (i < ms->parse.cmd_size)
 		{
-			int arg_size = count_arg_size(ms, lst);
-			printf("arg_size %i\n", arg_size);
-			s_cmd[i] = insert_args(ms, &lst, arg_size);
+			ms->parse.arg_size = count_arg_size(ms, lst);
+			printf("arg_size %i\n", ms->parse.arg_size);
+			ms->s_cmd[i] = insert_args(ms, &lst);
 			++i;
-		}
-		print_arg(s_cmd, cmd_size);
-		free_cmd_arg(s_cmd, cmd_size);
+		}*/
+		create_command_tab(ms, &lst);
+		print_arg(ms);
+		free_cmd_arg(ms);
 		print_list(lst);
 		free_list(lst);
 	}

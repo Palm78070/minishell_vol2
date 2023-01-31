@@ -43,11 +43,13 @@ int	count_arg_size(t_msh *ms, t_lst *lst)
 	return (count_arg);
 }
 
-t_cmd	*insert_args(t_msh *ms, t_lst **lst, int arg_size)
+t_cmd	*insert_args(t_msh *ms, t_lst **lst)
 {
 	t_cmd	*res;
+	int	arg_size;
 	int	i;
 
+	arg_size = ms->parse.arg_size;;
 	res = (t_cmd *)malloc(sizeof(t_cmd) * (arg_size + 1));
 	i = 0;
 	if (!res)
@@ -68,21 +70,38 @@ t_cmd	*insert_args(t_msh *ms, t_lst **lst, int arg_size)
 	return (res);
 }
 
-void	print_arg(t_cmd **s_cmd, int cmd_size)
+void	print_arg(t_msh *ms)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (i < cmd_size)
+	while (i < ms->parse.cmd_size)
 	{
 		j = 0;
-		while (s_cmd[i][j].arg != NULL)
+		while (ms->s_cmd[i][j].arg != NULL)
 		{
-			printf("arg %s\n", s_cmd[i][j].arg);
+			printf("arg[%i] %s\n", i, ms->s_cmd[i][j].arg);
 			++j;
 		}
+		++i;
+	}
+}
+
+void	create_command_tab(t_msh *ms, t_lst **lst)
+{
+	int	i;
+
+	i = 0;
+	ms->parse.cmd_size = count_simple_cmd(ms, *lst);
+	//printf("cmd_size %i\n", ms->parse.cmd_size);
+	ms->s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * ms->parse.cmd_size);
+	while (i < ms->parse.cmd_size)
+	{
+		ms->parse.arg_size = count_arg_size(ms, *lst);
+		//printf("arg_size %i\n", ms->parse.arg_size);
+		ms->s_cmd[i] = insert_args(ms, lst);
 		++i;
 	}
 }
