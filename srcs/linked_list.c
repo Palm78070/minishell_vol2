@@ -12,20 +12,6 @@
 
 #include "minishell.h"
 
-void	free_list(t_lst *lst)
-{
-	t_lst	*tmp;
-	tmp = lst;
-	while (tmp)
-	{
-		lst = lst->next;
-		if (tmp->data)
-			free(tmp->data);
-		free(tmp);
-		tmp = lst;	
-	}
-}
-
 void	print_list(t_lst *lst)
 {
 	if (lst == NULL)
@@ -79,4 +65,11 @@ void	remove_head_node(t_lst **lst)
 		free(curr);
 		return ;
 	}
+}
+
+int	list_ok(t_lst **lst)
+{
+	if (lst && *lst && (*lst)->data)
+		return (1);
+	return (0);
 }

@@ -37,8 +37,13 @@ int	count_arg_size(t_msh *ms, t_lst *lst)
 		ms->state = check_state(lst->data, 0);
 		if (ms->state == PIPE)
 			break ;
-		++count_arg;
-		lst = lst->next;
+		if (is_redirect(ms, lst))
+			lst = lst->next->next;
+		else
+		{
+			++count_arg;
+			lst = lst->next;
+		}
 	}
 	return (count_arg);
 }
@@ -55,17 +60,17 @@ t_cmd	*insert_args(t_msh *ms, t_lst **lst)
 	if (!res)
 		return (NULL);
 	res[arg_size].arg = NULL;
-	while (i < arg_size)
+	while (list_ok(lst))
 	{
-		res[i].arg = ft_strdup((*lst)->data);
+		handle_redirect(ms, lst);
+		if (!list_ok(lst) || check_state((*lst)->data, 0) == PIPE)
+			break ;
+		res[i++].arg = ft_strdup((*lst)->data);
 		if (!res)
 			return (NULL);
 		remove_head_node(lst);
-		++i;
 	}
-	if (lst && *lst && (*lst)->data)
-		ms->state = check_state((*lst)->data, 0);
-	if (ms->state == PIPE && lst)
+	if (list_ok(lst) && check_state((*lst)->data, 0) == PIPE)
 		remove_head_node(lst);
 	return (res);
 }
@@ -94,13 +99,15 @@ void	create_command_tab(t_msh *ms, t_lst **lst)
 	int	i;
 
 	i = 0;
+	init_redirect(ms);
 	ms->parse.cmd_size = count_simple_cmd(ms, *lst);
-	//printf("cmd_size %i\n", ms->parse.cmd_size);
+	printf("cmd_size %i\n", ms->parse.cmd_size);
 	ms->s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * ms->parse.cmd_size);
 	while (i < ms->parse.cmd_size)
 	{
+		printf("i %i\n", i);
 		ms->parse.arg_size = count_arg_size(ms, *lst);
-		//printf("arg_size %i\n", ms->parse.arg_size);
+		printf("arg_size %i\n", ms->parse.arg_size);
 		ms->s_cmd[i] = insert_args(ms, lst);
 		++i;
 	}

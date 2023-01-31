@@ -58,15 +58,15 @@ typedef struct s_cmd
 
 typedef struct s_red
 {
-	char	*in;
-	char	*out;
-	char	*err;
+	int	in;
+	int	out;
 }	t_red;
 
 typedef struct s_msh
 {
 	t_cmd	**s_cmd;
 	t_parse	parse;
+	t_red	io_red;
 	char				*line;
 	struct sigaction	sa;
 	int					state;
@@ -88,7 +88,6 @@ t_lst	*insert_str(t_msh *ms, t_lst *lst, int i);
 //quote.c
 void	check_quote(char *line, int *indx);
 char	*ft_insert_char(char *old, char c);
-char	*include_quote(char *res, char *old, int *indx);
 char	*remove_quote(char *old);
 //lexer.c
 t_lst	*ft_lexer(t_msh *ms);
@@ -98,13 +97,18 @@ int	count_arg_size(t_msh *ms, t_lst *lst);
 t_cmd	*insert_args(t_msh *ms, t_lst **lst);
 void	print_arg(t_msh *ms);
 void	create_command_tab(t_msh *ms, t_lst **lst);
+//redirect.c
+void	init_redirect(t_msh *ms);
+int	is_redirect(t_msh *ms, t_lst *lst);
+void	handle_redirect(t_msh *ms, t_lst **lst);
 //linked_list.c
-void	free_list(t_lst *lst);
 void	print_list(t_lst *lst);
 t_lst	*create_node(char *s);
 t_lst	*insert_end(t_lst *lst, char *s);
 void	remove_head_node(t_lst **lst);
+int		list_ok(t_lst **lst);
 //clear.c
+void	free_list(t_lst *lst);
 void	ft_clear(t_msh *ms);
 void	ft_error(char *s, t_msh *ms);
 void	free_cmd_arg(t_msh *ms);

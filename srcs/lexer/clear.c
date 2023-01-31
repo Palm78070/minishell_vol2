@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+void	free_list(t_lst *lst)
+{
+	t_lst	*tmp;
+	tmp = lst;
+	while (tmp)
+	{
+		lst = lst->next;
+		if (tmp->data)
+			free(tmp->data);
+		free(tmp);
+		tmp = lst;	
+	}
+}
+
 void	ft_clear(t_msh *ms)
 {
 	if (ms != NULL)
