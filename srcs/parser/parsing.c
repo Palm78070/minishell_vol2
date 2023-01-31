@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:16:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/31 00:02:26 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/01/31 09:08:46 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,46 @@ int	count_arg_size(t_msh *ms, t_lst *lst)
 	return (count_arg);
 }
 
-/*char	*insert_words(t_msh *ms, t_lst **lst, int arg_size)
+t_cmd	*insert_args(t_msh *ms, t_lst **lst, int arg_size)
 {
-	char	*res;
+	t_cmd	*res;
 	int	i;
 
-	res = (char *)malloc(sizeof(char) * arg_size);
+	res = (t_cmd *)malloc(sizeof(t_cmd) * (arg_size + 1));
 	i = 0;
 	if (!res)
 		return (NULL);
+	res[arg_size].arg = NULL;
 	while (i < arg_size)
 	{
-		res = ft_strdup((*lst)->data);
+		res[i].arg = ft_strdup((*lst)->data);
 		if (!res)
 			return (NULL);
 		remove_head_node(lst);
 		++i;
 	}
-	if (lst)
-		ms->state = check_state(lst->data, 0);
-	if (ms->state == PIPE)
+	if (lst && *lst && (*lst)->data)
+		ms->state = check_state((*lst)->data, 0);
+	if (ms->state == PIPE && lst)
 		remove_head_node(lst);
 	return (res);
-}*/
+}
+
+void	print_arg(t_cmd **s_cmd, int cmd_size)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < cmd_size)
+	{
+		j = 0;
+		while (s_cmd[i][j].arg != NULL)
+		{
+			printf("arg %s\n", s_cmd[i][j].arg);
+			++j;
+		}
+		++i;
+	}
+}

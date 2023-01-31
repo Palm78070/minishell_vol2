@@ -47,7 +47,7 @@ typedef struct s_lst
 
 typedef struct s_cmd
 {
-	char	**s_cmd;
+	char	*arg;
 }	t_cmd;
 
 typedef struct s_red
@@ -89,7 +89,8 @@ t_lst	*ft_lexer(t_msh *ms);
 //parsing.c
 int	count_simple_cmd(t_msh *ms, t_lst *lst);
 int	count_arg_size(t_msh *ms, t_lst *lst);
-char	*insert_words(t_msh *ms, t_lst **lst, int arg_size);
+t_cmd	*insert_args(t_msh *ms, t_lst **lst, int arg_size);
+void	print_arg(t_cmd **s_cmd, int cmd_size);
 //linked_list.c
 void	free_list(t_lst *lst);
 void	print_list(t_lst *lst);
@@ -99,6 +100,7 @@ void	remove_head_node(t_lst **lst);
 //clear.c
 void	ft_clear(t_msh *ms);
 void	ft_error(char *s, t_msh *ms);
+void	free_cmd_arg(t_cmd **s_cmd, int cmd_size);
 //readline.c
 void	rl_get(t_msh *ms);
 int		is_exit(char *s);

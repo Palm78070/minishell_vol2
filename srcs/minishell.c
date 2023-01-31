@@ -63,6 +63,20 @@ void	ft_handler(int signum)
 		printf("input from readline %s\n", ms->line);
 		lst = ft_lexer(ms);
 		//printf("test ms->line %s\n", ms->line);
+		int	cmd_size = count_simple_cmd(ms, lst);
+		printf("cmd_size %i\n", cmd_size);
+		t_cmd	**s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * cmd_size);
+		
+		int	i = 0;
+		while (i < cmd_size)
+		{
+			int arg_size = count_arg_size(ms, lst);
+			printf("arg_size %i\n", arg_size);
+			s_cmd[i] = insert_args(ms, &lst, arg_size);
+			print_arg(s_cmd[i]);
+			++i;
+		}
+		free_cmd_arg(s_cmd, cmd_size);
 		print_list(lst);
 		free_list(lst);
 		break ;
@@ -88,38 +102,29 @@ int	main(void)
 	// ms->sa.sa_handler = ft_handler;
 	// sigaction(SIGQUIT, &ms->sa, 0);
 	ms->line = NULL;
-	//while (ms->line != NULL)
 	while (1)
 	{
-		//while (!check_error_ok(ms->line))
-		//	rl_get(ms);
 		rl_get(ms);
-		/*if (!check_error_ok(ms->line))
-		{
-			printf("syntax error\n");
-			continue ;
-		}*/
-		//printf("ms->line %s\n", ms->line);
 		if (ms->line && is_exit(ms->line))
 			break ;
 		printf("input from readline %s\n", ms->line);
 		lst = ft_lexer(ms);
 		//printf("test ms->line %s\n", ms->line);
-		print_list(lst);
 		int	cmd_size = count_simple_cmd(ms, lst);
-		char	**s_cmd = (char **)malloc(sizeof(char *) * cmd_size);
+		printf("cmd_size %i\n", cmd_size);
+		t_cmd	**s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * cmd_size);
 		
 		int	i = 0;
 		while (i < cmd_size)
 		{
 			int arg_size = count_arg_size(ms, lst);
 			printf("arg_size %i\n", arg_size);
-			s_cmd[i] = (char *)malloc(sizeof(char) * arg_size);
-			s_cmd[i] = in_sert_word(ms, lst, arg_size);
-			printf("s_cmd[i] %s\n", s_cmd[0]);
-			break ;
+			s_cmd[i] = insert_args(ms, &lst, arg_size);
 			++i;
 		}
+		print_arg(s_cmd, cmd_size);
+		free_cmd_arg(s_cmd, cmd_size);
+		print_list(lst);
 		free_list(lst);
 	}
 	ft_clear(ms);

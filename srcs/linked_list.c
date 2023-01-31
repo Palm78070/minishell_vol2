@@ -29,7 +29,10 @@ void	free_list(t_lst *lst)
 void	print_list(t_lst *lst)
 {
 	if (lst == NULL)
+	{
+		printf("list is NULL\n");
 		return ;
+	}
 	printf("lexer %s\n", lst->data);
 	print_list(lst->next);
 }
