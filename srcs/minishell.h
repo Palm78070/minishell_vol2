@@ -103,6 +103,7 @@ void    ft_parsing(t_msh *ms, t_lst **lst);
 //redirect.c
 void	init_redirect(t_msh *ms);
 int	is_redirect(t_msh *ms, t_lst *lst);
+int is_all_space(char *s);
 void	handle_redirect(t_msh *ms, t_lst **lst);
 //linked_list.c
 void	print_list(t_lst *lst);

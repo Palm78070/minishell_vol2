@@ -17,14 +17,51 @@ int	is_redirect(t_msh *ms, t_lst *lst)
 	return (0);
 }
 
+int is_all_space(char *s)
+{
+    int i;
+
+    i = 0;
+    if (s == NULL || *s == '\0')
+        return (0);
+    while (s[i])
+    {
+        if (!ft_isspace(s[i++]))
+            return (0);
+    }
+    return (1);
+}
+
+char    *ft_filename(t_lst **lst)
+{
+    t_lst   *ptr;
+
+    ptr = *lst;
+    while (ptr && is_all_space(ptr->data))
+    {
+        printf("ptr->data %s\n", ptr->data);
+        ptr = ptr->next;
+    }
+    if (ptr)
+    {
+        printf("filename is %s\n", ptr->data);
+        return (ptr->data);
+    }
+    return (NULL);
+}
+
 void	handle_redirect(t_msh *ms, t_lst **lst)
 {
     int flag;
+    char    *filename;
 
     flag = is_redirect(ms, *lst);
+    filename = NULL;
 	while (flag)
 	{
 		remove_head_node(lst);
+        while (is_all_space((*lst)->data))
+            remove_head_node(lst);
 		printf("filename %s\n", (*lst)->data);
         if (flag == REDIRECT_O)
         {

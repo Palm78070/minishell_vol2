@@ -38,7 +38,16 @@ int	count_arg_size(t_msh *ms, t_lst *lst)
 		if (ms->state == PIPE)
 			break ;
 		if (is_redirect(ms, lst))
-			lst = lst->next->next;
+		{
+			lst = lst->next;
+			while (is_all_space(lst->data))
+				lst = lst->next;
+			if (lst->data)
+			{
+				printf("test filename %s\n", lst->data);
+				lst = lst->next;
+			}
+		}
 		else
 		{
 			++count_arg;
@@ -82,12 +91,15 @@ void	print_arg(t_msh *ms)
 
 	i = 0;
 	j = 0;
-	while (i < ms->parse.cmd_size)
+	//while (i < ms->parse.cmd_size)
+	while (ms->s_cmd[i] != NULL)
 	{
+		printf("i is %i\n", i);
 		j = 0;
 		while (ms->s_cmd[i][j].arg != NULL)
 		{
-			printf("arg[%i] %s\n", i, ms->s_cmd[i][j].arg);
+			printf("j is %i\n", j);
+			printf("arg[%i][%i] %s\n", i, j, ms->s_cmd[i][j].arg);
 			++j;
 		}
 		++i;
@@ -102,7 +114,8 @@ void	create_command_tab(t_msh *ms, t_lst **lst)
 	init_redirect(ms);
 	ms->parse.cmd_size = count_simple_cmd(ms, *lst);
 	printf("cmd_size %i\n", ms->parse.cmd_size);
-	ms->s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * ms->parse.cmd_size);
+	ms->s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * (ms->parse.cmd_size + 1));
+	ms->s_cmd[ms->parse.cmd_size] = NULL;
 	while (i < ms->parse.cmd_size)
 	{
 		printf("i %i\n", i);
