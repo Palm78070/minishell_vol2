@@ -12,7 +12,6 @@ void	check_quote(char *line, int *indx)
 
 	quote = 0;
 	i = *indx;
-	//if (line[i] && (line[i] == '\'' || line[i] == '"'))
 	if (line[i] && is_quote(line[i]))
 	{
 		quote = line[i];
@@ -52,24 +51,22 @@ char	*check_include_quote(char *res, char *old, int *indx)
 {
 	int	dollar;
 	int	i;
+	char	quote;
 
 	dollar = 0;
 	i = *indx;
-	//if (!(old[*indx + 1] && is_quote(old[*indx]) && old[*indx + 1] == '$'))
-	//	return (res);
+	quote = old[i];
 	while (old[i] && old[i] != '$')
 		++i;
 	if (old[i] == '\0')
 		return (res);
 	res = ft_insert_char(res, old[*indx]);
 	*indx += 1;
-	//while (old[*indx] && old[*indx] != '\'')
 	while (old[*indx] && !is_quote(old[*indx]))
 	{
 		res = ft_insert_char(res, old[*indx]);
 		*indx += 1;
 	}
-	//if (old[*indx] && old[*indx] == '\'')
 	if (old[*indx] && is_quote(old[*indx]))
 		res = ft_insert_char(res, old[*indx]);
 	if (old[*indx] && old[(*indx) + 1])
@@ -88,12 +85,10 @@ char	*remove_quote(char *old)
 	quote = 0;
 	while (old && old[i])
 	{
-		//if (old[i] == '\'' || old[i] == '"')
 		if (is_quote(old[i]))
 		{
 			quote = old[i];
 			res = check_include_quote(res, old, &i);
-			//if (old[i] && (old[i] == '\'' || old[i] == '"'))
 			if (old[i] && is_quote(old[i]))
 				++i;
 			while (old[i] && old[i] != quote)

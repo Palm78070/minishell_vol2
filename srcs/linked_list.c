@@ -73,3 +73,21 @@ int	list_ok(t_lst **lst)
 		return (1);
 	return (0);
 }
+
+void	ft_remove_if_addr(t_lst **lst, char *data)
+{
+	t_lst	*curr;
+
+	if (!(list_ok(lst)))
+		return ;
+	curr = *lst;
+	if ((curr && curr->data == data))
+	{
+		*lst = curr->next;
+		free(curr->data);
+		free(curr);
+		ft_remove_if_addr(lst, data);
+	}
+	else
+		ft_remove_if_addr(&curr->next, data);
+}

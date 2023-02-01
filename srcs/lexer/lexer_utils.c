@@ -44,6 +44,8 @@ static int	is_double_arrow(char *s, int i)
 
 int	check_state(char *s, int i)
 {
+	if (s == NULL || !s[i])
+		return (0);
 	if (ft_isspace(s[i]))
 		return (SP);
 	else if ((s[i] == '<' || s[i] == '>') && is_double_arrow(s, i))

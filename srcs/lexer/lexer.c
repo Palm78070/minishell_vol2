@@ -12,7 +12,22 @@
 
 #include "minishell.h"
 
-/*int	is_all_space(char *s)
+int	is_blank_quote(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (s == NULL || s[i] == '\0')
+		return (0);
+	while (s[i])
+	{
+		if (!is_quote(s[i++]))
+			return (0);
+	}
+	return (1);
+}
+
+int	still_have_quote(char *s)
 {
 	int	i;
 
@@ -21,32 +36,17 @@
 		return (0);
 	while (s[i])
 	{
-		if (!ft_isspace(s[i]))
+		if (s[i++] == '$')
 			return (0);
-		++i;
 	}
-	return (1);
-}
-
-void	ft_remove_if_space(t_lst **lst)
-{
-	t_lst	*curr;
-
-	curr = *lst;
-	if (lst == NULL || *lst == NULL)
-		return ;
-	if (curr->data[0] == ' ')
+	i = 0;
+	while (s[i])
 	{
-		*lst = curr->next;
-		if (curr && curr->data)
-			free(curr->data);
-		if (curr)
-			free(curr);
-		ft_remove_if_space(lst);
+		if (is_quote(s[i++]))
+			return (1);
 	}
-	else
-		ft_remove_if_space(&curr->next);
-}*/
+	return (0);
+}
 
 t_lst	*ft_lexer(t_msh *ms)
 {
@@ -57,16 +57,20 @@ t_lst	*ft_lexer(t_msh *ms)
 	ptr = lst;
 	while (ptr)
 	{
-		//ms->state = check_state(ptr->data, 0);
-		//if (ms->state == S_QUOTE || ms->state == D_QUOTE)
-		//{
-			//printf("xxx\n");
-			//ms->state = check_state(ptr->data, 1);
-			//if (ms->state == 0)
-				ptr->data = remove_quote(ptr->data);
-		//}
+		if (ptr->data && is_blank_quote(ptr->data))
+		{
+			ft_remove_if_addr(&lst, ptr->data);
+			ptr = lst;
+		}
+		else
+			ptr = ptr->next;
+	}
+	ptr = lst;
+	while (ptr)
+	{
+		while (still_have_quote(ptr->data))
+			ptr->data = remove_quote(ptr->data);
 		ptr = ptr->next;
 	}
-	//ft_remove_if_space(&lst);
 	return (lst);
 }

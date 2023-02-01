@@ -121,9 +121,10 @@ int	main(void)
 			ms->s_cmd[i] = insert_args(ms, &lst);
 			++i;
 		}*/
-		create_command_tab(ms, &lst);
+		/*create_command_tab(ms, &lst);
 		print_arg(ms);
-		free_cmd_arg(ms);
+		free_cmd_arg(ms);*/
+		ft_parsing(ms, &lst);
 		print_list(lst);
 		free_list(lst);
 	}
