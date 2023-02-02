@@ -85,11 +85,17 @@ t_lst	*ft_token(t_msh *ms);
 char	*trim_head(char *s, int delim_indx);
 int		check_state(char *s, int i);
 t_lst	*insert_str(t_msh *ms, t_lst *lst, int i);
+char	*ft_insert_char(char *old, char c);
 //quote.c
 int	is_quote(char c);
 void	check_quote(char *line, int *indx);
-char	*ft_insert_char(char *old, char c);
 char	*remove_quote(char *old);
+char	*check_include_quote(char *res, char *old, int *indx);
+//remove_quote.c
+int	is_blank_quote(char *s);
+int	still_have_quote(char *s);
+char	*remove_quote(char *old);
+t_lst	*handle_quote(t_lst *lst);
 //lexer.c
 t_lst	*ft_lexer(t_msh *ms);
 //parsing_utils.c

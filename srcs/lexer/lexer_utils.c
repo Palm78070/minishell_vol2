@@ -82,3 +82,29 @@ t_lst	*insert_str(t_msh *ms, t_lst *lst, int i)
 	free(str_tmp);
 	return (lst);
 }
+
+char	*ft_insert_char(char *old, char c)
+{
+	char	*res;
+	int	len;
+	int	i;
+
+	i = 0;
+	if (old == NULL)
+		len = 2;
+	else
+		len = ft_strlen(old) + 2;
+	res = (char *)malloc(sizeof(char) * len);
+	if (!res)
+		return (NULL);
+	while (old && old[i])
+	{
+		res[i] = old[i];
+		++i;
+	}
+	res[i++] = c;
+	res[i] = '\0';
+	if (old)
+		free(old);
+	return (res);
+}

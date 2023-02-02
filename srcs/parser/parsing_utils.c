@@ -94,11 +94,9 @@ void	print_arg(t_msh *ms)
 	//while (i < ms->parse.cmd_size)
 	while (ms->s_cmd[i] != NULL)
 	{
-		printf("i is %i\n", i);
 		j = 0;
 		while (ms->s_cmd[i][j].arg != NULL)
 		{
-			printf("j is %i\n", j);
 			printf("arg[%i][%i] %s\n", i, j, ms->s_cmd[i][j].arg);
 			++j;
 		}

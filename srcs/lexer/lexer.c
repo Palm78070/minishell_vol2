@@ -12,65 +12,45 @@
 
 #include "minishell.h"
 
-int	is_blank_quote(char *s)
+int	is_metachar(int i)
 {
-	int	i;
-
-	i = 0;
-	if (s == NULL || s[i] == '\0')
-		return (0);
-	while (s[i])
-	{
-		if (!is_quote(s[i++]))
-			return (0);
-	}
-	return (1);
+	return (i == PIPE || i == REDIRECT_I || i == REDIRECT_O || i == HEREDOC || i == APPEND);
 }
 
-int	still_have_quote(char *s)
+t_lst	*remove_space(t_lst *lst)
 {
-	int	i;
+	t_lst	*ptr;
 
-	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i])
+	ptr = lst;
+	while (ptr && ptr->data)
 	{
-		if (s[i++] == '$')
-			return (0);
+		if (is_all_space(ptr->data) && ptr->next)
+		{
+			if (is_metachar(check_state(ptr->next->data, 0)))
+			{
+				ft_remove_if_addr(&lst, ptr->data);
+				ptr = lst;
+			}
+		}
+		else if (is_metachar(check_state(ptr->data, 0)) && ptr->next)
+		{
+			if (is_all_space(ptr->next->data))
+			{
+				ft_remove_if_addr(&lst, ptr->next->data);
+				ptr = lst;
+			}
+		}
+		ptr = ptr->next;
 	}
-	i = 0;
-	while (s[i])
-	{
-		if (is_quote(s[i++]))
-			return (1);
-	}
-	return (0);
+	return (lst);
 }
 
 t_lst	*ft_lexer(t_msh *ms)
 {
 	t_lst	*lst;
-	t_lst	*ptr;
 
 	lst = ft_token(ms);
-	ptr = lst;
-	while (ptr)
-	{
-		if (ptr->data && is_blank_quote(ptr->data))
-		{
-			ft_remove_if_addr(&lst, ptr->data);
-			ptr = lst;
-		}
-		else
-			ptr = ptr->next;
-	}
-	ptr = lst;
-	while (ptr)
-	{
-		while (still_have_quote(ptr->data))
-			ptr->data = remove_quote(ptr->data);
-		ptr = ptr->next;
-	}
+	lst = handle_quote(lst);
+	lst = remove_space(lst);
 	return (lst);
 }
