@@ -49,6 +49,7 @@ typedef struct s_parse
 {
 	int	cmd_size;
 	int	arg_size;
+	int	red_size;
 }	t_parse;
 
 typedef struct s_cmd
@@ -60,14 +61,17 @@ typedef struct s_red
 {
 	int	in;
 	int	out;
+	int	heredoc;
+	int	append;
 }	t_red;
 
 typedef struct s_msh
 {
 	t_cmd	**s_cmd;
 	t_parse	parse;
-	t_red	io_red;
+	t_red	*io_red;
 	char				*line;
+	char				*line_hd;
 	struct sigaction	sa;
 	int					state;
 }	t_msh;
@@ -126,4 +130,5 @@ void	free_cmd_arg(t_msh *ms);
 //readline.c
 void	rl_get(t_msh *ms);
 int		is_exit(char *s);
+void	read_heredoc(t_msh *ms, int fd, char *delim);
 #endif

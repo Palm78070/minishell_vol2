@@ -26,19 +26,6 @@ void	free_list(t_lst *lst)
 	}
 }
 
-void	ft_clear(t_msh *ms)
-{
-	if (ms != NULL)
-	{
-		if (ms->line != NULL && ms->line[0] != '\0')
-		{
-			//rl_clear_history(ms->line);
-			free(ms->line);
-		}
-		free(ms);
-	}
-}
-
 void	ft_error(char *s, t_msh *ms)
 {
 	printf("%s\n", s);
@@ -69,4 +56,20 @@ void	free_cmd_arg(t_msh *ms)
 		++i;
 	}
 	free(ms->s_cmd);
+}
+
+void	ft_clear(t_msh *ms)
+{
+	if (ms != NULL)
+	{
+		free_cmd_arg(ms);
+		if (ms->line != NULL && ms->line[0] != '\0')
+		{
+			//rl_clear_history(ms->line);
+			free(ms->line);
+		}
+		if (ms->io_red)
+			free(ms->io_red);
+		free(ms);
+	}
 }

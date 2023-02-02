@@ -12,19 +12,25 @@
 
 #include "minishell.h"
 
-int	count_simple_cmd(t_msh *ms, t_lst *lst)
+//int	count_simple_cmd(t_msh *ms, t_lst *lst)
+void	count_arg_for_tab(t_msh *ms, t_lst *lst)
 {
 	int	count_pipe;
+	int	count_red;
 
 	count_pipe = 0;
+	count_red = 0;
 	while (lst)
 	{
 		ms->state = check_state(lst->data, 0);
 		if (ms->state == PIPE)
 			++count_pipe;
+		else if (is_redirect(ms, lst))
+			++count_red;
 		lst = lst->next;
 	}
-	return (count_pipe + 1);
+	ms->parse.cmd_size = count_pipe + 1;
+	ms->parse.red_size = count_red;
 }
 
 int	count_arg_size(t_msh *ms, t_lst *lst)
@@ -109,14 +115,20 @@ void	create_command_tab(t_msh *ms, t_lst **lst)
 	int	i;
 
 	i = 0;
-	init_redirect(ms);
-	ms->parse.cmd_size = count_simple_cmd(ms, *lst);
+	count_arg_for_tab(ms, *lst);
 	printf("cmd_size %i\n", ms->parse.cmd_size);
+	printf("red_size %i\n", ms->parse.red_size);
 	ms->s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * (ms->parse.cmd_size + 1));
+	ms->io_red = (t_red *)malloc(sizeof(t_red) * (ms->parse.red_size + 1));
+	if (!ms->s_cmd || !ms->io_red)
+	{
+		free_list(*lst);
+		ft_error("Failed to malloc in struct\n", ms);
+	}
 	ms->s_cmd[ms->parse.cmd_size] = NULL;
+	init_redirect(ms);
 	while (i < ms->parse.cmd_size)
 	{
-		printf("i %i\n", i);
 		ms->parse.arg_size = count_arg_size(ms, *lst);
 		printf("arg_size %i\n", ms->parse.arg_size);
 		ms->s_cmd[i] = insert_args(ms, lst);

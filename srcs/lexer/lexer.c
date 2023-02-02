@@ -14,7 +14,13 @@
 
 int	is_metachar(int i)
 {
-	return (i == PIPE || i == REDIRECT_I || i == REDIRECT_O || i == HEREDOC || i == APPEND);
+	if (i == PIPE
+		|| i == REDIRECT_I
+		|| i == REDIRECT_O
+		|| i == HEREDOC
+		|| i == APPEND)
+		return (1);
+	return (0);
 }
 
 t_lst	*remove_space(t_lst *lst)

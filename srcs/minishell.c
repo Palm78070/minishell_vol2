@@ -63,20 +63,7 @@ void	ft_handler(int signum)
 		printf("input from readline %s\n", ms->line);
 		lst = ft_lexer(ms);
 		//printf("test ms->line %s\n", ms->line);
-		int	cmd_size = count_simple_cmd(ms, lst);
-		printf("cmd_size %i\n", cmd_size);
-		t_cmd	**s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * cmd_size);
-		
-		int	i = 0;
-		while (i < cmd_size)
-		{
-			int arg_size = count_arg_size(ms, lst);
-			printf("arg_size %i\n", arg_size);
-			s_cmd[i] = insert_args(ms, &lst, arg_size);
-			print_arg(s_cmd[i]);
-			++i;
-		}
-		free_cmd_arg(s_cmd, cmd_size);
+		create_command_tab(ms, &lst);
 		print_list(lst);
 		free_list(lst);
 		break ;
