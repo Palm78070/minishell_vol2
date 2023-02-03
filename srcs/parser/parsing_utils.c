@@ -38,15 +38,15 @@ int	count_arg_size(t_msh *ms, t_lst *lst)
 	int	count_arg;
 
 	count_arg = 0;
-	while (lst)
+	while (list_ok(&lst))
 	{
 		ms->state = check_state(lst->data, 0);
 		if (ms->state == PIPE)
 			break ;
-		if (is_redirect(ms, lst))
+		if (list_ok(&lst) && is_redirect(ms, lst))
 		{
 			lst = lst->next;
-			while (is_all_space(lst->data))
+			while (list_ok(&lst) && is_all_space(lst->data))
 				lst = lst->next;
 			//if (lst && lst->data)
 			if (list_ok(&lst))
@@ -131,7 +131,8 @@ void	create_command_tab(t_msh *ms, t_lst **lst)
 	while (i < ms->parse.cmd_size)
 	{
 		ms->parse.arg_size = count_arg_size(ms, *lst);
-		//printf("arg_size %i\n", ms->parse.arg_size);
+		printf("arg_size %i\n", ms->parse.arg_size);
+		ms->s_cmd[i] = NULL;
 		ms->s_cmd[i] = insert_args(ms, lst);
 		++i;
 	}

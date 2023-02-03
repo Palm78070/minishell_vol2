@@ -71,9 +71,8 @@ void	handle_redirect(t_msh *ms, t_lst **lst)
 	while (flag)
 	{
 		remove_head_node(lst);
-		while (is_all_space((*lst)->data))
+		while (list_ok(lst) && is_all_space((*lst)->data))
 			remove_head_node(lst);
-		printf("filename %s\n", (*lst)->data);
 		if (flag == REDIRECT_O)
 		{
 			ms->io_red[i].out = open((*lst)->data, O_CREAT|O_RDWR, 0644);
@@ -86,7 +85,10 @@ void	handle_redirect(t_msh *ms, t_lst **lst)
 		}
 		else if (flag == HEREDOC)
 		{
-			read_heredoc(ms, i, (*lst)->data);
+			if (!list_ok(lst))
+				read_heredoc(ms, i, NULL);
+			else
+				read_heredoc(ms, i, (*lst)->data);
 		}
 		else if (flag == APPEND)
 		{

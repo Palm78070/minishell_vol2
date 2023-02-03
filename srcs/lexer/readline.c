@@ -41,15 +41,12 @@ void	rl_get_heredoc(t_msh *ms)
 
 void	read_heredoc(t_msh *ms, int i, char *delim)
 {
-	if (delim == NULL)
-		printf("delim is NULL\n");
-	else
-		printf("delim is %s\n", delim);
 	int	count;
 
 	count = 0;
+	if (delim == NULL)
+		delim = "\0";
 	ms->line_hd = "\0";
-	printf("i is %i\n", i);
 	ms->io_red[i].heredoc = open("heredoc", O_CREAT|O_RDWR, 0644);
 	printf("fd heredoc %i\n", ms->io_red[i].heredoc);
 	while (1)

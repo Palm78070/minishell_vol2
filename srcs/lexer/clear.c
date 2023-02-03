@@ -42,9 +42,16 @@ void	free_cmd_arg(t_msh *ms)
 	j = 0;
 	if (ms->s_cmd == NULL)
 		return ;
+	if (ms->s_cmd && *ms->s_cmd == NULL)
+	{
+		free(ms->s_cmd);
+		return ;
+	}
+	printf("s_cmd[0] %s\n", ms->s_cmd[0][0].arg);
 	while (i < ms->parse.cmd_size)
 	{
 		j = 0;
+		printf("i %i j %i\n", i, j);
 		while (ms->s_cmd[i][j].arg != NULL)
 		{
 			if (ms->s_cmd[i][j].arg)
