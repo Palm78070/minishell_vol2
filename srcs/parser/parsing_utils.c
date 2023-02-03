@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:16:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/31 09:08:46 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:11:36 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	count_arg_size(t_msh *ms, t_lst *lst)
 			lst = lst->next;
 			while (is_all_space(lst->data))
 				lst = lst->next;
-			if (lst->data)
+			//if (lst && lst->data)
+			if (list_ok(&lst))
 			{
 				printf("test filename %s\n", lst->data);
 				lst = lst->next;
@@ -130,7 +131,7 @@ void	create_command_tab(t_msh *ms, t_lst **lst)
 	while (i < ms->parse.cmd_size)
 	{
 		ms->parse.arg_size = count_arg_size(ms, *lst);
-		printf("arg_size %i\n", ms->parse.arg_size);
+		//printf("arg_size %i\n", ms->parse.arg_size);
 		ms->s_cmd[i] = insert_args(ms, lst);
 		++i;
 	}

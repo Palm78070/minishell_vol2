@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:17:21 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/27 22:20:25 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/03 14:17:41 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void	rl_get_heredoc(t_msh *ms)
 
 void	read_heredoc(t_msh *ms, int i, char *delim)
 {
+	if (delim == NULL)
+		printf("delim is NULL\n");
+	else
+		printf("delim is %s\n", delim);
 	int	count;
 
 	count = 0;
