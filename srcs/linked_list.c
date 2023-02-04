@@ -56,12 +56,10 @@ void	remove_head_node(t_lst **lst)
 	t_lst	*curr;
 	
 	curr = *lst;
-	//if (lst == NULL && *lst == NULL)
 	if (!list_ok(lst))
 		return ;
 	else
 	{
-		printf("lst->data %s\n", (*lst)->data);
 		*lst = curr->next;
 		free(curr->data);
 		free(curr);

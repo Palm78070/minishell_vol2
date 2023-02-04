@@ -115,52 +115,30 @@ int	is_not_file(char *s, int i)
 	return (0);
 }
 
-int	arrow_error_ok(char *s, char *c)
+int	arrow_error_ok(char *s, char *c, int *i)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
+	while (s[*i])
 	{
-		if (s[i] && (s[i] == '<' || s[i] == '>'))
+		if (s[*i] && (s[*i] == '<' || s[*i] == '>'))
 		{
-			*c = s[i];
-			if (is_not_file(s, i))
+			*c = s[*i];
+			if (is_not_file(s, *i))
 				return (-2);
-			if (s[i + 1] && s[i] == *c && s[i + 1] == *c)
-				return (double_arrow_error_ok(s, *c, i + 2));
-			while (s[++i] && ft_isspace(s[i]) && s[i] != '<' && s[i] != '>')
+			if (s[*i + 1] && s[*i] == *c && s[*i + 1] == *c)
+				return (double_arrow_error_ok(s, *c, *i + 2));
+			while (s[++(*i)] && ft_isspace(s[*i]) && s[*i] != '<' && s[*i] != '>')
 				continue ;
-			if (s[i] && (s[i] == '<' || s[i] == '>'))
-				return (0);
+			if (s[*i] && (s[*i] == '<' || s[*i] == '>'))
+			{
+				*c = s[*i];
+				return (-1);
+			}
 		}
 		else
-			++i;
+			++(*i);
 	}
-	i = ft_strlen(s) - 1;
-	while (i >= 0 && ft_isspace(s[i]) && s[i] != '<' && s[i] != '>')
-		--i;
-	if (s[i] && (s[i] == '<' || s[i] == '>'))
-		return (-1);
-	return (1);
-}
-
-int	check_error_ok(char *s)
-{
-	char	c;
-	int	flag;
-
-	c = 0;
-	if (!quote_error_ok(s, &c))
-		return (0);
-	flag = arrow_error_ok(s, &c);
-	if (flag == 0)
-		printf("syntax error near unexpected token '%c'\n", c);
-	else if (flag == -1)
-		printf("syntax error near unexpected token 'newline'\n");
-	if (flag <= 0)
-		return (0);
-	if (!pipe_error_ok(s))
-		return (0);
-	return (1);
+	*i = ft_strlen(s) - 1;
+	while (*i >= 0 && ft_isspace(s[*i]) && s[*i] != '<' && s[*i] != '>')
+		--(*i);
+	return (!(s[*i] && (s[*i] == '<' || s[*i] == '>')));
 }

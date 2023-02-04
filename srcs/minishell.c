@@ -14,17 +14,6 @@
 
 t_msh	*ms;
 
-int	is_exit(char *s)
-{
-	if (s[0] == 'e' && s[1] == 'x' && s[2] == 'i' && s[3] == 't'
-		&& s[4] == '\0')
-	{
-		printf("exit\n");
-		return (1);
-	}
-	return (0);
-}
-
 void	ft_handler(int signum)
 {
 	if (signum == SIGQUIT)
@@ -76,6 +65,13 @@ void	ft_handler(int signum)
 	return (0);
 }*/
 
+void	init_struct(t_msh *ms)
+{
+	ms->line = NULL;
+	ms->s_cmd = NULL;
+	ms->io_red = NULL;
+}
+
 int	main(void)
 {
 	t_lst	*lst;
@@ -88,11 +84,12 @@ int	main(void)
 	// sigaddset(&ms->sa.sa_mask, SIGQUIT);
 	// ms->sa.sa_handler = ft_handler;
 	// sigaction(SIGQUIT, &ms->sa, 0);
-	ms->line = NULL;
+	//ms->line = NULL;
+	init_struct(ms);
 	while (1)
 	{
 		rl_get(ms);
-		if (ms->line && is_exit(ms->line))
+		if (ms->line && ft_strncmp(ms->line, "exit", ft_strlen("exit")) == 0)
 			break ;
 		printf("input from readline %s\n", ms->line);
 		lst = ft_lexer(ms);

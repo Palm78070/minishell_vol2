@@ -59,10 +59,13 @@ typedef struct s_cmd
 
 typedef struct s_red
 {
-	int	in;
-	int	out;
-	int	heredoc;
-	int	append;
+	int	fd_in;
+	int	fd_out;
+	int	fd_heredoc;
+	int	fd_append;
+	char	*in;
+	char	*out;
+	char	*append;
 }	t_red;
 
 typedef struct s_msh
@@ -78,7 +81,11 @@ typedef struct s_msh
 
 void	ft_handler(int signum);
 //error.c
-int	check_error_ok(char *s);
+int	quote_error_ok(char *s, char *quote);
+int	pipe_error_ok(char *s);
+int	double_arrow_error_ok(char *s, char c, int i);
+int	is_not_file(char *s, int i);
+int	arrow_error_ok(char *s, char *c, int *i);
 //token.c
 t_lst	*token_space(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_pipe(t_msh *ms, t_lst *lst, int *index);
@@ -110,6 +117,12 @@ void	print_arg(t_msh *ms);
 void	create_command_tab(t_msh *ms, t_lst **lst);
 //parsing.c
 void    ft_parsing(t_msh *ms, t_lst **lst);
+//redirect_utils.c
+int	is_env_var(char *s);
+void    parse_red_out(t_msh *ms, t_lst **lst, int i);
+void    parse_red_in(t_msh *ms, t_lst **lst, int i);
+void	parse_heredoc(t_msh *ms, t_lst **lst, int i);
+void    parse_append(t_msh *ms, t_lst **lst, int i);
 //redirect.c
 void	init_redirect(t_msh *ms);
 int	is_redirect(t_msh *ms, t_lst *lst);
