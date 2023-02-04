@@ -53,6 +53,10 @@ int	pipe_error_ok(char *s)
 	i = 0;
 	while (s[i] && is_ok)
 	{
+		if (s[i] && (s[i] == '\'' || s[i] == '"'))
+			is_ok = s[i];
+		while (s[i] && s[i] != is_ok + '0')
+			++i;
 		if (s[i] && s[i] == '|')
 		{
 			while (s[++i] && ft_isspace(s[i]) && s[i] != '|')

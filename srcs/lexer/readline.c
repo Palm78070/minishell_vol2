@@ -34,9 +34,7 @@ int	check_error_ok(char *s)
 	}
 	else if (flag == 0)
 		printf("syntax error near unexpected token 'newline'\n");
-	if (flag <= 0)
-		return (0);
-	if (!pipe_error_ok(s))
+	if (!pipe_error_ok(s) || flag <= 0)
 		return (0);
 	return (1);
 }
@@ -52,10 +50,7 @@ void	rl_get(t_msh *ms)
 	if (ms->line != NULL && *(ms->line))
 		add_history(ms->line);
 	if (!check_error_ok(ms->line))
-	{
-		//printf("syntax error\n");
 		rl_get(ms);
-	}
 }
 
 void	rl_get_heredoc(t_msh *ms)
@@ -76,7 +71,7 @@ void	read_heredoc(t_msh *ms, int i, char *delim)
 	if (delim == NULL)
 		delim = "\0";
 	ms->line_hd = "\0";
-	ms->io_red[i].fd_heredoc = open("heredoc", O_CREAT|O_RDWR, 0644);
+	ms->io_red[i].fd_heredoc = open("heredoc", O_TRUNC|O_RDWR, 0644);
 	printf("fd heredoc %i\n", ms->io_red[i].fd_heredoc);
 	while (1)
 	{
