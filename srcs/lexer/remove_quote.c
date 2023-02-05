@@ -19,9 +19,15 @@ int	still_have_quote(char *s)
 {
 	int	i;
 
-	i = 0;
 	if (s == NULL)
 		return (0);
+	i = 1;
+	while (s[i])
+	{
+		if (is_metachar(check_state(s, i++)))
+			return (0);
+	}
+	i = 0;
 	while (s[i])
 	{
 		if (s[i++] == '$')

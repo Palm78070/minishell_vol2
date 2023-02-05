@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/30 23:57:09 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/05 14:44:16 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ t_lst	*insert_str(t_msh *ms, t_lst *lst, int i);
 char	*ft_insert_char(char *old, char c);
 //quote.c
 int	is_quote(char c);
+int	run_from_quote(char *s, int i);
 void	check_quote(char *line, int *indx);
 char	*remove_quote(char *old);
 char	*check_include_quote(char *res, char *old, int *indx);
@@ -108,6 +109,7 @@ int	still_have_quote(char *s);
 char	*remove_quote(char *old);
 t_lst	*handle_quote(t_lst *lst);
 //lexer.c
+int	is_metachar(int i);
 t_lst	*ft_lexer(t_msh *ms);
 //parsing_utils.c
 int	count_simple_cmd(t_msh *ms, t_lst *lst);

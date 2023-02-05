@@ -5,6 +5,18 @@ int	is_quote(char c)
 	return (c == '\'' || c == '"');
 }
 
+int	run_from_quote(char *s, int i)
+{
+	char	quote;
+
+	quote = 0;
+	if (s[i] && (s[i] == '\'' || s[i] == '"'))
+		quote = s[i];
+	while (s[i] && s[i] != quote)
+		++i;
+	return (i);
+}
+
 void	check_quote(char *line, int *indx)
 {
 	int	i;
