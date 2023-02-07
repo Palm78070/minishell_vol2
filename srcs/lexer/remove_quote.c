@@ -78,20 +78,25 @@ t_lst	*handle_quote(t_lst *lst)
 	ptr = lst;
 	while (ptr)
 	{
-		if (ptr->data && is_blank_quote(ptr->data))
+		if (list_ok(&ptr) && is_metachar(check_state(ptr->data, 0)))
+			ptr = ptr->next->next;
+		if (list_ok(&ptr) && is_blank_quote(ptr->data))
 		{
 			ft_remove_if_addr(&lst, ptr->data);
 			ptr = lst;
 		}
-		else
+		else if (list_ok(&ptr))
 			ptr = ptr->next;
 	}
 	ptr = lst;
 	while (ptr)
 	{
-		while (still_have_quote(ptr->data))
+		if (list_ok(&ptr) && is_metachar(check_state(ptr->data, 0)))
+			ptr = ptr->next->next;
+		while (list_ok(&ptr) && still_have_quote(ptr->data))
 			ptr->data = remove_quote(ptr->data);
-		ptr = ptr->next;
+		if (list_ok(&ptr))
+			ptr = ptr->next;
 	}
 	return (lst);
     }

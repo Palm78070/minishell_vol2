@@ -9,10 +9,10 @@ void    init_redirect(t_msh *ms)
 	{
 		ms->io_red[i].fd_in = -1;
 		ms->io_red[i].fd_out = -1;
-		ms->io_red[i].fd_heredoc = -1;
 		ms->io_red[i].fd_append = -1;
 		ms->io_red[i].in = NULL;
 		ms->io_red[i].out = NULL;
+		ms->io_red[i].heredoc = NULL;
 		ms->io_red[i].append = NULL;
 		++i;
 	}

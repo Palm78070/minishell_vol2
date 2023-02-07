@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/05 14:44:16 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/07 01:02:44 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ typedef struct s_red
 {
 	int	fd_in;
 	int	fd_out;
-	int	fd_heredoc;
 	int	fd_append;
 	char	*in;
 	char	*out;
+	char	*heredoc;
 	char	*append;
 }	t_red;
 

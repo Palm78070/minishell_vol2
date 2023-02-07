@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:17:21 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/03 14:17:41 by rath             ###   ########.fr       */
+/*   Updated: 2023/02/07 01:20:52 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,18 @@ void	rl_get_heredoc(t_msh *ms)
 	ms->line_hd = readline("heredoc> ");
 }
 
-void	read_heredoc(t_msh *ms, int i, char *delim)
+/*void	read_heredoc(t_msh *ms, int i, char *delim)
 {
+	printf("i before open %i\n", i);
+	printf("fd heredoc before open %i\n", ms->io_red[i].fd_heredoc);
 	int	count;
 
 	count = 0;
 	if (delim == NULL)
 		delim = "\0";
 	ms->line_hd = "\0";
-	ms->io_red[i].fd_heredoc = open("heredoc", O_TRUNC|O_RDWR, 0644);
+	//ms->io_red[i].fd_heredoc = open("heredoc", O_TRUNC|O_RDWR, 0644);
+	ms->io_red[i].fd_heredoc = open("heredoc", O_CREAT|O_TRUNC|O_RDWR, 0644);
 	printf("fd heredoc %i\n", ms->io_red[i].fd_heredoc);
 	while (1)
 	{
@@ -83,4 +86,4 @@ void	read_heredoc(t_msh *ms, int i, char *delim)
 		ft_putstr_fd(ms->line_hd, ms->io_red[i].fd_heredoc);
 		++count;
 	}
-}
+}*/

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_error.c                                      :+:      :+:    :+:   */
+/*   check_error_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:52:09 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/05 14:44:53 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/07 01:40:07 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ int	is_not_file(char *s, int i)
 {
 	if (s[i + 1] && s[i] == '>' && s[i + 1] == '>')
 	{
-		if (is_blank_quote(&s[i + 2]))
+		i += 2;
+		while (s[i] && ft_isspace(s[i]))
+			++i;
+		if (is_blank_quote(&s[i]))
 		{
 			printf("No such file or directory\n");
 			return (1);
@@ -107,7 +110,10 @@ int	is_not_file(char *s, int i)
 	}
 	else if (s[i] == '<' || s[i] == '>')
 	{
-		if (is_blank_quote(&s[i + 1]))
+		++i;
+		while (s[i] && ft_isspace(s[i]))
+			++i;
+		if (is_blank_quote(&s[i]))
 		{
 			printf("No such file or directory\n");
 			return (1);
