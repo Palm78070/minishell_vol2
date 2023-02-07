@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 21:06:33 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/07 14:23:02 by rath             ###   ########.fr       */
+/*   Updated: 2023/02/07 15:04:32 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,12 @@ t_lst	*remove_space(t_lst *lst)
 	while (ptr && ptr->data)
 	{
 		if (list_ok(&ptr) && is_all_space(ptr->data))
+		{
 			ft_remove_if_addr(&lst, ptr->data);
-		ptr = ptr->next;
+			ptr = lst;
+		}
+		else
+			ptr = ptr->next;
 	}
 	return (lst);
 }
@@ -42,7 +46,7 @@ t_lst	*ft_lexer(t_msh *ms)
 	t_lst	*lst;
 
 	lst = ft_token(ms);
+	lst = remove_space(lst);
 	lst = handle_quote(lst);
-	//lst = remove_space(lst);
 	return (lst);
 }

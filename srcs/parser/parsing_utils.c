@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:16:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/03 15:11:36 by rath             ###   ########.fr       */
+/*   Updated: 2023/02/07 15:06:52 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,8 @@ int	count_arg_size(t_msh *ms, t_lst *lst)
 			lst = lst->next;
 			while (list_ok(&lst) && is_all_space(lst->data))
 				lst = lst->next;
-			//if (lst && lst->data)
 			if (list_ok(&lst))
-			{
-				printf("test filename %s\n", lst->data);
 				lst = lst->next;
-			}
 		}
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:08:03 by rthammat          #+#    #+#             */
-/*   Updated: 2023/01/24 21:29:17 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/07 15:40:29 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,10 @@ void	free_cmd_arg(t_msh *ms)
 
 	i = 0;
 	j = 0;
-	if (ms->s_cmd == NULL)
-		return ;
-	if (ms->s_cmd && *ms->s_cmd == NULL)
+	if (ms->s_cmd == NULL || (ms->s_cmd && !(*ms->s_cmd)))
 	{
-		free(ms->s_cmd);
+		if (ms->s_cmd)
+			free(ms->s_cmd);
 		return ;
 	}
 	while (i < ms->parse.cmd_size)
@@ -63,11 +62,32 @@ void	free_cmd_arg(t_msh *ms)
 	free(ms->s_cmd);
 }
 
+void	free_red_str(t_msh *ms)
+{
+	int	i;
+
+	i = 0;
+	while (i < ms->parse.red_size)
+	{
+		printf("count i to red_size %i\n", i);
+		if (ms->io_red[i].out)
+			free(ms->io_red[i].out);
+		if (ms->io_red[i].in)
+			free(ms->io_red[i].in);
+		if (ms->io_red[i].heredoc)
+			free(ms->io_red[i].heredoc);
+		if (ms->io_red[i].append)
+			free(ms->io_red[i].append);
+		++i;
+	}
+}
+
 void	ft_clear(t_msh *ms)
 {
 	if (ms != NULL)
 	{
 		free_cmd_arg(ms);
+		free_red_str(ms);
 		if (ms->line != NULL && ms->line[0] != '\0')
 		{
 			//rl_clear_history(ms->line);

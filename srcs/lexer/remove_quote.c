@@ -99,4 +99,4 @@ t_lst	*handle_quote(t_lst *lst)
 			ptr = ptr->next;
 	}
 	return (lst);
-    }
+}

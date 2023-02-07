@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:44:51 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/05 14:45:16 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/07 15:45:41 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,6 @@ int	main(void)
 		printf("input from readline %s\n", ms->line);
 		lst = ft_lexer(ms);
 		//printf("test ms->line %s\n", ms->line);
-		/*ms->parse.cmd_size = count_simple_cmd(ms, lst);
-		printf("cmd_size %i\n", ms->parse.cmd_size);
-		ms->s_cmd = (t_cmd **)malloc(sizeof(t_cmd *) * ms->parse.cmd_size);
-		int	i = 0;
-		while (i < ms->parse.cmd_size)
-		{
-			ms->parse.arg_size = count_arg_size(ms, lst);
-			printf("arg_size %i\n", ms->parse.arg_size);
-			ms->s_cmd[i] = insert_args(ms, &lst);
-			++i;
-		}*/
-		/*create_command_tab(ms, &lst);
-		print_arg(ms);
-		free_cmd_arg(ms);*/
 		ft_parsing(ms, &lst);
 		print_list(lst);
 		free_list(lst);
