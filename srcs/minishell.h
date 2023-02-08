@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/08 13:59:07 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/09 00:06:36 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
-//# include "/usr/local/opt/readline/include/readline"
 
 enum	e_state
 {
@@ -146,4 +145,6 @@ void	free_cmd_arg(t_msh *ms);
 void	rl_get(t_msh *ms);
 int		is_exit(char *s);
 void	read_heredoc(t_msh *ms, int fd, char *delim);
+//signal.c
+void	ft_signal(t_msh *ms);
 #endif

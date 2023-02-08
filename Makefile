@@ -1,19 +1,19 @@
 NAME := minishell
 
+RL_DIR := /usr/local/opt/readline/
+LIB_RL := -L$(RL_DIR)lib/
+
 CC := gcc
-CFLAGS := -Wall -Werror -Wextra -lreadline -g
+CFLAGS := -Wall -Werror -Wextra -lreadline $(LIB_RL) -g
 
 LIBFT_DIR := ./libft
 LIBFT := $(LIBFT_DIR)/libft.a
 #LIBFT_FLAGS := -Llibft
 LIB_I := -I$(LIBFT_DIR)
 
-#READLINE := -Iusr/local/opt/readline/include
-#READLINE_FLAGS := -Lusr/local/opt/readline
-
 SRCS_DIR := ./srcs
 SRCS := $(shell find $(SRCS_DIR) -name '*.c')
-HEADER_I := -I$(SRCS_DIR)
+HEADER_I := -I$(SRCS_DIR) -I$(RL_DIR)include/
 
 all: $(NAME)
 
