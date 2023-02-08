@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:44:51 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/07 22:52:45 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/08 14:00:42 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	init_struct(t_msh *ms)
 	ms->line = NULL;
 	ms->s_cmd = NULL;
 	ms->io_red = NULL;
+	ms->parse.red_size = 0;
+	sigemptyset(&ms->sa.sa_mask);
+	sigaddset(&ms->sa.sa_mask, SIGQUIT);
+	ms->sa.sa_flags = SA_SIGINFO;
+	ms->sa.sa_handler = ft_handler;
+	sigaction(SIGQUIT, &ms->sa, 0);
 }
 
 int	main(void)
@@ -39,11 +45,6 @@ int	main(void)
 	ms = (t_msh *)malloc(sizeof(t_msh));
 	if (!ms)
 		ft_error("Fail to malloc struct", ms);
-	// sigemptyset(&ms->sa.sa_mask);
-	// sigaddset(&ms->sa.sa_mask, SIGQUIT);
-	// ms->sa.sa_handler = ft_handler;
-	// sigaction(SIGQUIT, &ms->sa, 0);
-	//ms->line = NULL;
 	init_struct(ms);
 	while (1)
 	{
