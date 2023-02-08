@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:08:03 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/07 15:40:29 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/07 16:11:14 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	free_red_str(t_msh *ms)
 	i = 0;
 	while (i < ms->parse.red_size)
 	{
-		printf("count i to red_size %i\n", i);
 		if (ms->io_red[i].out)
 			free(ms->io_red[i].out);
 		if (ms->io_red[i].in)

@@ -74,8 +74,10 @@ char	*remove_quote(char *old)
 t_lst	*handle_quote(t_lst *lst)
 {
 	t_lst	*ptr;
+	int	delim_quote;
 
 	ptr = lst;
+	delim_quote = 0;
 	while (ptr)
 	{
 		if (list_ok(&ptr) && is_metachar(check_state(ptr->data, 0)))
