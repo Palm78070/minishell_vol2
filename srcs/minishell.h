@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/09 21:14:55 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:31:05 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,15 @@ typedef struct s_msh
 t_msh	*g_ms;
 
 void	ft_handler(int signum);
-//error.c
+//check_error_utils.c
 int	quote_error_ok(char *s, char *quote);
 int	pipe_error_ok(char *s, int is_ok);
 int	double_arrow_error_ok(char *s, char c, int i);
-int	is_not_file(char *s, int i);
 int	arrow_error_ok(char *s, char *c, int *i);
+//check_error.c
+int	is_arrow(char c);
+int	is_not_file(char *s, int i);
+int	check_error_ok(char *s);
 //token.c
 t_lst	*token_space(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_pipe(t_msh *ms, t_lst *lst, int *index);

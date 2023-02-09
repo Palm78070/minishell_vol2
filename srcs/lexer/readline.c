@@ -6,38 +6,11 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:17:21 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/09 21:13:17 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:35:37 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	check_error_ok(char *s)
-{
-	char	c;
-	int	flag;
-	int	i;
-
-	c = 0;
-	i = 0;
-	if (!quote_error_ok(s, &c))
-		return (0);
-	flag = arrow_error_ok(s, &c, &i);
-	if (flag == -1)
-	{
-		flag = 0;
-		printf("syntax error near unexpected token '");
-		while (s[i] && s[i] == c && flag++ != 3)
-			printf("%c", s[i++]);
-		printf("'\n");
-		return (0);
-	}
-	else if (flag == 0)
-		printf("syntax error near unexpected token 'newline'\n");
-	if (!pipe_error_ok(s, 1) || flag <= 0)
-		return (0);
-	return (1);
-}
 
 int	re_prompt(t_msh *ms)
 {

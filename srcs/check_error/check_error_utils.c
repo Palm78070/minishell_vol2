@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:52:09 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/09 21:14:51 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:34:04 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,49 +94,21 @@ int	double_arrow_error_ok(char *s, char c, int i)
 	return (1);
 }
 
-int	is_not_file(char *s, int i)
-{
-	if (s[i + 1] && s[i] == '>' && s[i + 1] == '>')
-	{
-		i += 2;
-		while (s[i] && ft_isspace(s[i]))
-			++i;
-		if (is_blank_quote(&s[i]))
-		{
-			printf("No such file or directory\n");
-			return (1);
-		}
-	}
-	else if (s[i] == '<' || s[i] == '>')
-	{
-		++i;
-		while (s[i] && ft_isspace(s[i]))
-			++i;
-		if (is_blank_quote(&s[i]))
-		{
-			printf("No such file or directory\n");
-			return (1);
-		}
-	}
-	return (0);
-}
-
 int	arrow_error_ok(char *s, char *c, int *i)
 {
 	while (s[*i])
 	{
 		*i = run_from_quote(s, *i);
-		if (s[*i] && (s[*i] == '<' || s[*i] == '>'))
+		if (s[*i] && is_arrow(s[*i]))
 		{
 			*c = s[*i];
 			if (is_not_file(s, *i))
 				return (-2);
 			if (s[*i + 1] && s[*i] == *c && s[*i + 1] == *c)
 				return (double_arrow_error_ok(s, *c, *i + 2));
-			while (s[++(*i)] && ft_isspace(s[*i]) \
-				&& s[*i] != '<' && s[*i] != '>')
+			while (s[++(*i)] && ft_isspace(s[*i]) && !is_arrow(s[*i]))
 				continue ;
-			if (s[*i] && (s[*i] == '<' || s[*i] == '>'))
+			if (s[*i] && is_arrow(s[*i]))
 			{
 				*c = s[*i];
 				return (-1);
