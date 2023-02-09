@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:17:21 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/09 04:07:53 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:13:17 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,38 +34,23 @@ int	check_error_ok(char *s)
 	}
 	else if (flag == 0)
 		printf("syntax error near unexpected token 'newline'\n");
-	if (!pipe_error_ok(s) || flag <= 0)
+	if (!pipe_error_ok(s, 1) || flag <= 0)
 		return (0);
 	return (1);
 }
 
-void	check_quit(t_msh *ms)
+int	re_prompt(t_msh *ms)
 {
-	int	i;
-
-	i = 0;
-	if (ms->line == NULL)
-		printf("CTRL-D is pressed => EOF\n");
-	while (ms->line && ms->line[i])
+	if (ms->line && ms->line[0] == '\0')
 	{
-		if (ms->line[i] == 4)
-		{
-			printf("SIGQUIT\n");
-			ms->line = NULL;
-		}
-		++i;
+		free(ms->line);
+		ms->line = NULL;
+		return (1);
 	}
-}
-
-void	hit_newline(t_msh *ms)
-{
-	if (ms->line && *ms->line == '\0')
-	{
-		printf("xxx\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+	if (ms->line && *ms->line)
+		if (!check_error_ok(ms->line))
+			return (1);
+	return (0);
 }
 
 void	rl_get(t_msh *ms)
@@ -76,12 +61,11 @@ void	rl_get(t_msh *ms)
 		ms->line = NULL;
 	}
 	ms->line = readline("Enter command: ");
-	//hit_newline(ms);
 	if (ms->line == NULL)
 		printf("CTRL-D is pressed => EOF\n");
 	if (ms->line != NULL && *(ms->line))
 		add_history(ms->line);
-	if (ms->line && *ms->line && !check_error_ok(ms->line))
+	if (re_prompt(ms))
 		rl_get(ms);
 }
 

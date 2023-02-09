@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 21:52:09 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/09 03:58:44 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:14:51 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@ int	quote_error_ok(char *s, char *quote)
 	return (is_ok);
 }
 
-int	pipe_error_ok(char *s)
+int	pipe_error_ok(char *s, int is_ok)
 {
 	int	i;
-	int	is_ok;
 
-	is_ok = 1;
 	i = ft_strlen(s) - 1;
 	while (i >= 0 && ft_isspace(s[i]) && s[i] != '|')
 		--i;
@@ -135,7 +133,8 @@ int	arrow_error_ok(char *s, char *c, int *i)
 				return (-2);
 			if (s[*i + 1] && s[*i] == *c && s[*i + 1] == *c)
 				return (double_arrow_error_ok(s, *c, *i + 2));
-			while (s[++(*i)] && ft_isspace(s[*i]) && s[*i] != '<' && s[*i] != '>')
+			while (s[++(*i)] && ft_isspace(s[*i]) \
+				&& s[*i] != '<' && s[*i] != '>')
 				continue ;
 			if (s[*i] && (s[*i] == '<' || s[*i] == '>'))
 			{

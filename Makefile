@@ -25,7 +25,7 @@ $(LIBFT):
 	@make -C ./libft
 
 norminette:
-	norminette -R CheckForbiddenSourceHeader *.h *.c
+	norminette -R CheckForbiddenSourceHeader srcs/*.h srcs/*.c
 
 clean:
 	@make fclean -C ./libft
