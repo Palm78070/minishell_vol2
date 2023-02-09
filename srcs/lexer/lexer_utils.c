@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 00:18:47 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/07 22:46:22 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/09 22:14:42 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ char	*trim_head(char *s, int delim_indx)
 
 static int	is_double_arrow(char *s, int i)
 {
-	if (s[i + 1])
-		return (s[i + 1] == '<' || s[i + 1] == '>');
+	if (s[i] == '<' && s[i + 1] == '<')
+		return (HEREDOC);
+	if (s[i] == '>' && s[i + 1] == '>')
+		return (APPEND);
 	return (0);
 }
 
@@ -49,12 +51,7 @@ int	check_state(char *s, int i)
 	if (ft_isspace(s[i]))
 		return (SP);
 	else if ((s[i] == '<' || s[i] == '>') && is_double_arrow(s, i))
-	{
-		if (s[i] == '<' && s[i + 1] == '<')
-			return (HEREDOC);
-		if (s[i] == '>' && s[i + 1] == '>')
-			return (APPEND);
-	}
+		return (is_double_arrow(s, i));
 	else if (s[i] == '<')
 		return (REDIRECT_I);
 	else if (s[i] == '>')
@@ -85,9 +82,9 @@ t_lst	*insert_str(t_msh *ms, t_lst *lst, int i)
 
 char	*ft_insert_char(char *old, char c)
 {
+	int		len;
+	int		i;
 	char	*res;
-	int	len;
-	int	i;
 
 	i = 0;
 	if (old == NULL)

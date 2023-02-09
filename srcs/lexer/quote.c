@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 22:12:53 by rthammat          #+#    #+#             */
+/*   Updated: 2023/02/09 22:15:46 by rthammat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_quote(char c)
@@ -19,7 +31,7 @@ int	run_from_quote(char *s, int i)
 
 void	check_quote(char *line, int *indx)
 {
-	int	i;
+	int		i;
 	char	quote;
 
 	quote = 0;
@@ -35,8 +47,8 @@ void	check_quote(char *line, int *indx)
 
 char	*check_include_quote(char *res, char *old, int *indx)
 {
-	int	dollar;
-	int	i;
+	int		dollar;
+	int		i;
 	char	quote;
 
 	dollar = 0;

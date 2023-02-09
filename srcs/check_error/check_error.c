@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_error.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 22:16:40 by rthammat          #+#    #+#             */
+/*   Updated: 2023/02/09 22:17:52 by rthammat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_arrow(char c)
@@ -34,9 +46,9 @@ int	is_not_file(char *s, int i)
 
 int	check_error_ok(char *s)
 {
+	int		flag;
+	int		i;
 	char	c;
-	int	flag;
-	int	i;
 
 	c = 0;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/09 21:31:05 by rath             ###   ########.fr       */
+/*   Updated: 2023/02/09 22:34:04 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ typedef struct s_cmd
 
 typedef struct s_red
 {
-	int	fd_in;
-	int	fd_out;
-	int	fd_append;
+	int		fd_in;
+	int		fd_out;
+	int		fd_append;
 	char	*in;
 	char	*out;
 	char	*heredoc;
@@ -72,24 +72,24 @@ typedef struct s_msh
 	t_cmd	**s_cmd;
 	t_parse	parse;
 	t_red	*io_red;
-	char				*line;
-	char				*line_hd;
+	int		state;
+	char	*line;
+	char	*line_hd;
 	struct sigaction	sa;
-	int					state;
 }	t_msh;
 
 t_msh	*g_ms;
 
 void	ft_handler(int signum);
 //check_error_utils.c
-int	quote_error_ok(char *s, char *quote);
-int	pipe_error_ok(char *s, int is_ok);
-int	double_arrow_error_ok(char *s, char c, int i);
-int	arrow_error_ok(char *s, char *c, int *i);
+int		quote_error_ok(char *s, char *quote);
+int		pipe_error_ok(char *s, int is_ok);
+int		double_arrow_error_ok(char *s, char c, int i);
+int		arrow_error_ok(char *s, char *c, int *i);
 //check_error.c
-int	is_arrow(char c);
-int	is_not_file(char *s, int i);
-int	check_error_ok(char *s);
+int		is_arrow(char c);
+int		is_not_file(char *s, int i);
+int		check_error_ok(char *s);
 //token.c
 t_lst	*token_space(t_msh *ms, t_lst *lst, int *index);
 t_lst	*token_pipe(t_msh *ms, t_lst *lst, int *index);
@@ -102,37 +102,37 @@ int		check_state(char *s, int i);
 t_lst	*insert_str(t_msh *ms, t_lst *lst, int i);
 char	*ft_insert_char(char *old, char c);
 //quote.c
-int	is_quote(char c);
-int	run_from_quote(char *s, int i);
+int		is_quote(char c);
+int		run_from_quote(char *s, int i);
 void	check_quote(char *line, int *indx);
 char	*remove_quote(char *old);
 char	*check_include_quote(char *res, char *old, int *indx);
 //remove_quote.c
-int	is_blank_quote(char *s);
-int	still_have_quote(char *s);
+int		is_blank_quote(char *s);
+int		still_have_quote(char *s);
 char	*remove_quote(char *old);
 t_lst	*handle_quote(t_lst *lst);
 //lexer.c
-int	is_metachar(int i);
+int		is_metachar(int i);
 t_lst	*ft_lexer(t_msh *ms);
 //parsing_utils.c
-int	count_simple_cmd(t_msh *ms, t_lst *lst);
-int	count_arg_size(t_msh *ms, t_lst *lst);
+int		count_simple_cmd(t_msh *ms, t_lst *lst);
+int		count_arg_size(t_msh *ms, t_lst *lst);
 t_cmd	*insert_args(t_msh *ms, t_lst **lst);
 void	print_arg(t_msh *ms);
 void	create_command_tab(t_msh *ms, t_lst **lst);
 //parsing.c
-void    ft_parsing(t_msh *ms, t_lst **lst);
+void	ft_parsing(t_msh *ms, t_lst **lst);
 //redirect_utils.c
-int	is_env_var(char *s);
-void    parse_red_out(t_msh *ms, t_lst **lst, int i);
-void    parse_red_in(t_msh *ms, t_lst **lst, int i);
+int		is_env_var(char *s);
+void	parse_red_out(t_msh *ms, t_lst **lst, int i);
+void	parse_red_in(t_msh *ms, t_lst **lst, int i);
 void	parse_heredoc(t_msh *ms, t_lst **lst, int i);
-void    parse_append(t_msh *ms, t_lst **lst, int i);
+void	parse_append(t_msh *ms, t_lst **lst, int i);
 //redirect.c
 void	init_redirect(t_msh *ms);
-int	is_redirect(t_msh *ms, t_lst *lst);
-int is_all_space(char *s);
+int		is_redirect(t_msh *ms, t_lst *lst);
+int		is_all_space(char *s);
 void	handle_redirect(t_msh *ms, t_lst **lst);
 //linked_list.c
 void	print_list(t_lst *lst);

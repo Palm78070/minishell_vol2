@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   remove_quote.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 22:10:33 by rthammat          #+#    #+#             */
+/*   Updated: 2023/02/09 22:16:25 by rthammat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_blank_quote(char *s)
@@ -44,9 +56,9 @@ int	still_have_quote(char *s)
 
 char	*remove_quote(char *old)
 {
+	int		i;
 	char	*res;
 	char	quote;
-	int	i;
 
 	res = NULL;
 	i = 0;
@@ -74,10 +86,8 @@ char	*remove_quote(char *old)
 t_lst	*handle_quote(t_lst *lst)
 {
 	t_lst	*ptr;
-	int	delim_quote;
 
 	ptr = lst;
-	delim_quote = 0;
 	while (ptr)
 	{
 		if (list_ok(&ptr) && is_metachar(check_state(ptr->data, 0)))
