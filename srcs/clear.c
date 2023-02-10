@@ -90,7 +90,7 @@ void	ft_clear(t_msh *ms)
 		free_red_str(ms);
 		if (ms->line != NULL && ms->line[0] != '\0')
 		{
-			//rl_clear_history(ms->line);
+			rl_clear_history();
 			free(ms->line);
 		}
 		if (ms->io_red)
