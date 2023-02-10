@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/10 14:10:02 by rthammat          #+#    #+#             */
+/*   Updated: 2023/02/10 14:10:03 by rthammat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_env_var(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] && s[i] != '$')
@@ -22,9 +34,10 @@ void	parse_red_out(t_msh *ms, t_lst **lst, int i)
 		printf("out is %s\n", ms->io_red[i].out);
 	}
 	else
-		ms->io_red[i].fd_out = open((*lst)->data, O_CREAT|O_RDWR, 0644);
+		ms->io_red[i].fd_out = open((*lst)->data, O_CREAT | O_RDWR, 0644);
 	printf("fd out[%i] is %i\n", i, ms->io_red[i].fd_out);
 }
+
 void	parse_red_in(t_msh *ms, t_lst **lst, int i)
 {
 	ms->io_red[i].in = ft_strdup((*lst)->data);
@@ -35,8 +48,8 @@ void	parse_red_in(t_msh *ms, t_lst **lst, int i)
 void	parse_heredoc(t_msh *ms, t_lst **lst, int i)
 {
 	if (list_ok(lst))
-		ms->io_red[i].heredoc = ft_strdup((*lst)->data); 
-	printf("heredoc delim[%i] is %s\n", i, ms->io_red[i].heredoc);	
+		ms->io_red[i].heredoc = ft_strdup((*lst)->data);
+	printf("heredoc delim[%i] is %s\n", i, ms->io_red[i].heredoc);
 }
 
 void	parse_append(t_msh *ms, t_lst **lst, int i)
@@ -47,6 +60,6 @@ void	parse_append(t_msh *ms, t_lst **lst, int i)
 		printf("append is %s\n", ms->io_red[i].append);
 	}
 	else
-		ms->io_red[i].fd_append = open((*lst)->data, O_CREAT|O_RDWR, 0644);
+		ms->io_red[i].fd_append = open((*lst)->data, O_CREAT | O_RDWR, 0644);
 	printf("append[%i] is %i\n", i, ms->io_red[i].fd_append);
 }

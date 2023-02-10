@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/10 14:02:53 by rthammat          #+#    #+#             */
+/*   Updated: 2023/02/10 14:06:00 by rthammat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void    ft_parsing(t_msh *ms, t_lst **lst)
+void	ft_parsing(t_msh *ms, t_lst **lst)
 {
 	create_command_tab(ms, lst);
 	print_arg(ms);
-	//free_cmd_arg(ms);
 }

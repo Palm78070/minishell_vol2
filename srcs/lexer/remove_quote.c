@@ -26,7 +26,7 @@ int	is_blank_quote(char *s)
 	}
 	return (1);
 }
-
+/*
 int	still_have_quote(char *s)
 {
 	int	i;
@@ -52,7 +52,7 @@ int	still_have_quote(char *s)
 			return (1);
 	}
 	return (0);
-}
+}*/
 
 char	*remove_quote(char *old)
 {
@@ -83,7 +83,7 @@ char	*remove_quote(char *old)
 	return (res);
 }
 
-t_lst	*handle_quote(t_lst *lst)
+/*t_lst	*handle_quote(t_lst *lst)
 {
 	t_lst	*ptr;
 
@@ -111,4 +111,4 @@ t_lst	*handle_quote(t_lst *lst)
 			ptr = ptr->next;
 	}
 	return (lst);
-}
+}*/

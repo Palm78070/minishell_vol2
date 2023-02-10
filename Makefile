@@ -4,7 +4,7 @@ RL_DIR := /usr/local/opt/readline/
 LIB_RL := -L$(RL_DIR)lib/
 
 CC := gcc
-CFLAGS := -Wall -Werror -Wextra -lreadline $(LIB_RL) -g
+CFLAGS := -Wall -Werror -Wextra -lreadline -ltermcap $(LIB_RL) -g
 
 LIBFT_DIR := ./libft
 LIBFT := $(LIBFT_DIR)/libft.a
@@ -25,7 +25,8 @@ $(LIBFT):
 	@make -C ./libft
 
 norminette:
-	norminette -R CheckForbiddenSourceHeader srcs/*.h *.c srcs/lexer/*.c srcs/check_error/*.c
+	norminette -R CheckForbiddenSourceHeader
+	#norminette -R CheckForbiddenSourceHeader srcs/*.h *.c srcs/lexer/*.c srcs/check_error/*.c
 
 clean:
 	@make fclean -C ./libft

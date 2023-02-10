@@ -15,6 +15,7 @@
 void	free_list(t_lst *lst)
 {
 	t_lst	*tmp;
+
 	tmp = lst;
 	while (tmp)
 	{
@@ -22,7 +23,7 @@ void	free_list(t_lst *lst)
 		if (tmp->data)
 			free(tmp->data);
 		free(tmp);
-		tmp = lst;	
+		tmp = lst;
 	}
 }
 

@@ -47,13 +47,9 @@ void	check_quote(char *line, int *indx)
 
 char	*check_include_quote(char *res, char *old, int *indx)
 {
-	int		dollar;
 	int		i;
-	char	quote;
 
-	dollar = 0;
 	i = *indx;
-	quote = old[i];
 	while (old[i] && old[i] != '$')
 		++i;
 	if (old[i] == '\0')

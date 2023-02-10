@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/10 14:06:09 by rthammat          #+#    #+#             */
+/*   Updated: 2023/02/10 14:09:54 by rthammat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void    init_redirect(t_msh *ms)
+void	init_redirect(t_msh *ms)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < ms->parse.red_size)
@@ -23,15 +35,15 @@ int	is_redirect(t_msh *ms, t_lst *lst)
 	if (!list_ok(&lst))
 		return (0);
 	ms->state = check_state(lst->data, 0);
-	if (ms->state == REDIRECT_I || ms->state == REDIRECT_O
-			|| ms->state == HEREDOC || ms->state == APPEND)
+	if (ms->state == REDIRECT_I || ms->state == REDIRECT_O \
+		|| ms->state == HEREDOC || ms->state == APPEND)
 		return (ms->state);
 	return (0);
 }
 
 int	is_all_space(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (s == NULL || *s == '\0')
@@ -44,9 +56,9 @@ int	is_all_space(char *s)
 	return (1);
 }
 
-char    *ft_filename(t_lst **lst)
+char	*ft_filename(t_lst **lst)
 {
-	t_lst   *ptr;
+	t_lst	*ptr;
 
 	ptr = *lst;
 	while (ptr && is_all_space(ptr->data))
@@ -64,8 +76,8 @@ char    *ft_filename(t_lst **lst)
 
 void	handle_redirect(t_msh *ms, t_lst **lst)
 {
-	int flag;
-	int i;
+	int	flag;
+	int	i;
 
 	flag = is_redirect(ms, *lst);
 	i = 0;

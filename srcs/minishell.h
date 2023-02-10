@@ -23,6 +23,8 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <termios.h>
+# include <termcap.h>
 
 enum	e_state
 {
@@ -69,13 +71,13 @@ typedef struct s_red
 
 typedef struct s_msh
 {
-	t_cmd	**s_cmd;
-	t_parse	parse;
-	t_red	*io_red;
-	int		state;
-	char	*line;
-	char	*line_hd;
 	struct sigaction	sa;
+	t_cmd				**s_cmd;
+	t_parse				parse;
+	t_red				*io_red;
+	int					state;
+	char				*line;
+	char				*line_hd;
 }	t_msh;
 
 t_msh	*g_ms;
@@ -109,9 +111,9 @@ char	*remove_quote(char *old);
 char	*check_include_quote(char *res, char *old, int *indx);
 //remove_quote.c
 int		is_blank_quote(char *s);
-int		still_have_quote(char *s);
+//int		still_have_quote(char *s);
 char	*remove_quote(char *old);
-t_lst	*handle_quote(t_lst *lst);
+//t_lst	*handle_quote(t_lst *lst);
 //lexer.c
 int		is_metachar(int i);
 t_lst	*ft_lexer(t_msh *ms);
@@ -151,5 +153,6 @@ void	rl_get(t_msh *ms);
 int		is_exit(char *s);
 void	read_heredoc(t_msh *ms, int fd, char *delim);
 //signal.c
+void	ft_handler(int signum);
 void	ft_signal(t_msh *ms);
 #endif

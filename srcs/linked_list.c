@@ -54,7 +54,7 @@ t_lst	*insert_end(t_lst *lst, char *s)
 void	remove_head_node(t_lst **lst)
 {
 	t_lst	*curr;
-	
+
 	curr = *lst;
 	if (!list_ok(lst))
 		return ;

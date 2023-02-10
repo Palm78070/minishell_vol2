@@ -12,29 +12,6 @@
 
 #include "minishell.h"
 
-void	ft_handler(int signum)
-{
-	if (signum == SIGQUIT)
-	{
-		if (g_ms->line == NULL)
-			return ;
-		else
-		{
-			printf("CTRL-\\ is pressed => quit minishell\n");
-			ft_clear(g_ms);
-			exit(1);
-		}
-	}
-	if (signum == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		return ;	
-	}
-}
-
 void	init_struct(void)
 {
 	g_ms->line = NULL;
@@ -57,7 +34,11 @@ int	is_quit(void)
 int	main(void)
 {
 	t_lst	*lst;
-
+	// struct	termios old_set, new_set;
+	// tcgetattr(STDIN_FILENO, &old_set);
+	// new_set = old_set;
+	// new_set.c_lflag &= (~ICANON);
+	// tcsetattr(STDIN_FILENO, TCSANOW, &new_set);
 	lst = NULL;
 	g_ms = (t_msh *)malloc(sizeof(t_msh));
 	if (!g_ms)
@@ -78,5 +59,6 @@ int	main(void)
 	}
 	free_list(lst);
 	ft_clear(g_ms);
+	//tcsetattr(STDIN_FILENO, TCSANOW, &old_set);
 	return (0);
 }

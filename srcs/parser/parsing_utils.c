@@ -63,10 +63,10 @@ int	count_arg_size(t_msh *ms, t_lst *lst)
 t_cmd	*insert_args(t_msh *ms, t_lst **lst)
 {
 	t_cmd	*res;
-	int	arg_size;
-	int	i;
+	int		arg_size;
+	int		i;
 
-	arg_size = ms->parse.arg_size;;
+	arg_size = ms->parse.arg_size;
 	res = (t_cmd *)malloc(sizeof(t_cmd) * (arg_size + 1));
 	i = 0;
 	if (!res)
@@ -94,7 +94,6 @@ void	print_arg(t_msh *ms)
 
 	i = 0;
 	j = 0;
-	//while (i < ms->parse.cmd_size)
 	while (ms->s_cmd[i] != NULL)
 	{
 		j = 0;

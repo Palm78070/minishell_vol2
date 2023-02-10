@@ -12,6 +12,29 @@
 
 #include "minishell.h"
 
+void	ft_handler(int signum)
+{
+	if (signum == SIGQUIT)
+	{
+		if (g_ms->line == NULL)
+			return ;
+		else
+		{
+			printf("CTRL-\\ is pressed => quit minishell\n");
+			ft_clear(g_ms);
+			exit(1);
+		}
+	}
+	if (signum == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		return ;
+	}
+}
+
 void	ft_signal(t_msh *ms)
 {
 	sigaction(SIGINT, &ms->sa, 0);
