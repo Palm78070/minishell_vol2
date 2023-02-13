@@ -34,11 +34,6 @@ int	is_quit(void)
 int	main(void)
 {
 	t_lst	*lst;
-	// struct	termios old_set, new_set;
-	// tcgetattr(STDIN_FILENO, &old_set);
-	// new_set = old_set;
-	// new_set.c_lflag &= (~ICANON);
-	// tcsetattr(STDIN_FILENO, TCSANOW, &new_set);
 	lst = NULL;
 	g_ms = (t_msh *)malloc(sizeof(t_msh));
 	if (!g_ms)
@@ -59,6 +54,5 @@ int	main(void)
 	}
 	free_list(lst);
 	ft_clear(g_ms);
-	//tcsetattr(STDIN_FILENO, TCSANOW, &old_set);
 	return (0);
 }

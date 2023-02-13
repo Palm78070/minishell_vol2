@@ -4,7 +4,7 @@ RL_DIR := /usr/local/opt/readline/
 LIB_RL := -L$(RL_DIR)lib/
 
 CC := gcc
-CFLAGS := -Wall -Werror -Wextra -lreadline -ltermcap $(LIB_RL) -g
+CFLAGS := -Wall -Werror -Wextra -lreadline $(LIB_RL) -g
 
 LIBFT_DIR := ./libft
 LIBFT := $(LIBFT_DIR)/libft.a
@@ -17,7 +17,7 @@ HEADER_I := -I$(SRCS_DIR) -I$(RL_DIR)include/
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(SRCS)
+$(NAME): $(SRCS) $(LIBFT)
 	$(CC) $(CFLAGS) $^ $(LIB_I) $(HEADER_I) -o $@ 
 	#$(CC) $(CFLAGS) $^ $(LIB_INC) $(LIBFT_FLAGS) -o $@ 
 

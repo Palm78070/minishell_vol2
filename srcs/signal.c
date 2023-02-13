@@ -15,16 +15,7 @@
 void	ft_handler(int signum)
 {
 	if (signum == SIGQUIT)
-	{
-		if (g_ms->line == NULL)
-			return ;
-		else
-		{
-			printf("CTRL-\\ is pressed => quit minishell\n");
-			ft_clear(g_ms);
-			exit(1);
-		}
-	}
+		return ;
 	if (signum == SIGINT)
 	{
 		printf("\n");
