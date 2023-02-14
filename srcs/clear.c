@@ -47,7 +47,6 @@ void	free_cmd_arg(t_msh *ms)
 	}
 	while (ms->cmd_tb[i] != NULL)
 	{
-		print_command_tab(ms);
 		free_double(ms->cmd_tb[i]);
 		ms->cmd_tb[i++] = NULL;
 	}

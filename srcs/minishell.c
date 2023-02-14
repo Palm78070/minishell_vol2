@@ -48,9 +48,6 @@ int	main(void)
 			break ;
 		printf("input from readline %s\n", g_ms->line);
 		lst = ft_lexer(g_ms);
-		if (g_ms->line)
-			free(g_ms->line);
-		g_ms->line = NULL;
 		ft_parsing(g_ms, &lst);
 		print_list(lst);
 		free_list(lst);

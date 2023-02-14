@@ -30,7 +30,6 @@ void	rl_get(t_msh *ms)
 {
 	if (ms->line != NULL && *(ms->line))
 	{
-		printf("xxxms->line %s\n", ms->line);
 		free(ms->line);
 		ms->line = NULL;
 	}
