@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:08:03 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/09 02:49:59 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/14 08:55:27 by rath             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,21 @@ void	ft_error(char *s, t_msh *ms)
 void	free_cmd_arg(t_msh *ms)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
-	if (ms->s_cmd == NULL || (ms->s_cmd && !(*ms->s_cmd)))
+	if (ms->cmd_tb == NULL)
 	{
-		if (ms->s_cmd)
-			free(ms->s_cmd);
+		if (ms->cmd_tb)
+			free(ms->cmd_tb);
 		return ;
 	}
-	while (i < ms->parse.cmd_size)
+	while (ms->cmd_tb[i] != NULL)
 	{
-		j = 0;
-		while (ms->s_cmd[i][j].arg != NULL)
-		{
-			if (ms->s_cmd[i][j].arg)
-				free(ms->s_cmd[i][j].arg);
-			++j;
-		}
-		free(ms->s_cmd[i][j].arg);
-		free(ms->s_cmd[i]);
-		++i;
+		print_command_tab(ms);
+		free_double(ms->cmd_tb[i]);
+		ms->cmd_tb[i++] = NULL;
 	}
-	free(ms->s_cmd);
+	free(ms->cmd_tb);
 }
 
 void	free_red_str(t_msh *ms)
