@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:08:03 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/14 08:55:27 by rath             ###   ########.fr       */
+/*   Updated: 2023/02/15 12:12:53 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_error(char *s, t_msh *ms)
 	exit(EXIT_FAILURE);
 }
 
-void	free_cmd_arg(t_msh *ms)
+void	free_cmd_tab(t_msh *ms)
 {
 	int	i;
 
@@ -50,7 +50,10 @@ void	free_cmd_arg(t_msh *ms)
 		free_double(ms->cmd_tb[i]);
 		ms->cmd_tb[i++] = NULL;
 	}
+	free(ms->cmd_tb[i]);
+	ms->cmd_tb[i] = NULL;
 	free(ms->cmd_tb);
+	ms->cmd_tb = NULL;
 }
 
 void	free_red_str(t_msh *ms)
@@ -76,7 +79,7 @@ void	ft_clear(t_msh *ms)
 {
 	if (ms != NULL)
 	{
-		free_cmd_arg(ms);
+		free_cmd_tab(ms);
 		free_red_str(ms);
 		if (ms->line != NULL && ms->line[0] != '\0')
 		{

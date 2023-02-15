@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:16:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/14 08:51:40 by rath             ###   ########.fr       */
+/*   Updated: 2023/02/15 12:12:21 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,9 @@ void	create_command_tab(t_msh *ms, t_lst **lst)
 	printf("cmd_size %i\n", ms->parse.cmd_size);
 	printf("red_size %i\n", ms->parse.red_size);
 	ms->cmd_tb = (char ***)malloc(sizeof(char **) * (ms->parse.cmd_size + 1));
-	ms->io_red = (t_red *)malloc(sizeof(t_red) * (ms->parse.red_size + 1));
-	if (!ms->cmd_tb || !ms->io_red)
+	if (ms->parse.red_size != 0)
+		ms->io_red = (t_red *)malloc(sizeof(t_red) * (ms->parse.red_size + 1));
+	if (ms->parse.red_size != 0 && (!ms->cmd_tb || !ms->io_red))
 	{
 		free_list(*lst);
 		ft_error("Failed to malloc in struct\n", ms);

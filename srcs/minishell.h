@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/14 08:52:32 by rath             ###   ########.fr       */
+/*   Updated: 2023/02/15 12:16:21 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_msh
 	char				***cmd_tb;
 }	t_msh;
 
-t_msh	*g_ms;
+extern t_msh	*g_ms;
 
 void	ft_handler(int signum);
 //check_error_utils.c
@@ -142,7 +142,7 @@ void	ft_remove_if_addr(t_lst **lst, char *data);
 void	free_list(t_lst *lst);
 void	ft_clear(t_msh *ms);
 void	ft_error(char *s, t_msh *ms);
-void	free_cmd_arg(t_msh *ms);
+void	free_cmd_tab(t_msh *ms);
 //readline.c
 void	rl_get(t_msh *ms);
 int		is_exit(char *s);

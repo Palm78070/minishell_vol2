@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:02:53 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/14 08:54:36 by rath             ###   ########.fr       */
+/*   Updated: 2023/02/15 11:12:04 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,5 @@ void	ft_parsing(t_msh *ms, t_lst **lst)
 {
 	create_command_tab(ms, lst);
 	print_command_tab(ms);
+	free_cmd_tab(ms);
 }

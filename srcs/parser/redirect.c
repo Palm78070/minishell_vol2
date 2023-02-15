@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:09 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/10 14:09:54 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/15 12:08:45 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	init_redirect(t_msh *ms)
 	int	i;
 
 	i = 0;
+	if (ms->io_red == NULL)
+		return ;
 	while (i < ms->parse.red_size)
 	{
 		ms->io_red[i].fd_in = -1;
