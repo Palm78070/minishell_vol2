@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:09 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/15 12:08:45 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:58:16 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,14 @@ void	init_redirect(t_msh *ms)
 	int	i;
 
 	i = 0;
-	if (ms->io_red == NULL)
-		return ;
-	while (i < ms->parse.red_size)
+	while (i < ms->parse.cmd_size)
 	{
-		ms->io_red[i].fd_in = -1;
-		ms->io_red[i].fd_out = -1;
-		ms->io_red[i].fd_append = -1;
-		ms->io_red[i].in = NULL;
-		ms->io_red[i].out = NULL;
-		ms->io_red[i].heredoc = NULL;
-		ms->io_red[i].append = NULL;
+		ms->redout[i].fd_out = -1;
+		ms->redout[i].filename = NULL;
+		ms->redin[i].filename = NULL;
+		ms->append[i].fd_append = -1;
+		ms->append[i].filename = NULL;
+		ms->heredoc[i].delim = NULL;
 		++i;
 	}
 }
@@ -58,7 +55,7 @@ int	is_all_space(char *s)
 	return (1);
 }
 
-char	*ft_filename(t_lst **lst)
+/*char	*ft_filename(t_lst **lst)
 {
 	t_lst	*ptr;
 
@@ -74,15 +71,13 @@ char	*ft_filename(t_lst **lst)
 		return (ptr->data);
 	}
 	return (NULL);
-}
+}*/
 
-void	handle_redirect(t_msh *ms, t_lst **lst)
+void	handle_redirect(t_msh *ms, t_lst **lst, int i)
 {
 	int	flag;
-	int	i;
 
 	flag = is_redirect(ms, *lst);
-	i = 0;
 	while (flag)
 	{
 		remove_head_node(lst);
@@ -98,6 +93,5 @@ void	handle_redirect(t_msh *ms, t_lst **lst)
 			parse_append(ms, lst, i);
 		remove_head_node(lst);
 		flag = is_redirect(ms, *lst);
-		++i;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/15 12:16:21 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:33:48 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_parse
 	int	red_size;
 }	t_parse;
 
-typedef struct s_red
+/*typedef struct s_red
 {
 	int		fd_in;
 	int		fd_out;
@@ -62,13 +62,42 @@ typedef struct s_red
 	char	*out;
 	char	*heredoc;
 	char	*append;
-}	t_red;
+}	t_red;*/
+
+typedef struct s_red_out
+{
+	int	fd_out;
+	t_lst	*filename;
+	//char	*out;
+}	t_redout;
+
+typedef struct s_red_in
+{
+	t_lst	*filename;
+	//char	*in;
+}	t_redin;
+
+typedef struct s_append
+{
+	int	fd_append;
+	t_lst	*filename;
+	//char	*append;
+}	t_append;
+
+typedef struct s_heredoc
+{
+	t_lst	*delim;
+	//char	*delim;
+}	t_heredoc;
 
 typedef struct s_msh
 {
 	struct sigaction	sa;
 	t_parse				parse;
-	t_red				*io_red;
+	t_redout			*redout;
+	t_redin				*redin;
+	t_append			*append;
+	t_heredoc			*heredoc;
 	int					state;
 	char				*line;
 	char				*line_hd;
@@ -115,7 +144,7 @@ t_lst	*ft_lexer(t_msh *ms);
 //parsing_utils.c
 int		count_simple_cmd(t_msh *ms, t_lst *lst);
 int		count_arg_size(t_msh *ms, t_lst *lst);
-char	**insert_args(t_msh *ms, t_lst **lst);
+char	**insert_args(t_msh *ms, t_lst **lst, int i);
 void	print_command_tab(t_msh *ms);
 void	create_command_tab(t_msh *ms, t_lst **lst);
 //parsing.c
@@ -130,7 +159,7 @@ void	parse_append(t_msh *ms, t_lst **lst, int i);
 void	init_redirect(t_msh *ms);
 int		is_redirect(t_msh *ms, t_lst *lst);
 int		is_all_space(char *s);
-void	handle_redirect(t_msh *ms, t_lst **lst);
+void	handle_redirect(t_msh *ms, t_lst **lst, int i);
 //linked_list.c
 void	print_list(t_lst *lst);
 t_lst	*create_node(char *s);
@@ -143,6 +172,9 @@ void	free_list(t_lst *lst);
 void	ft_clear(t_msh *ms);
 void	ft_error(char *s, t_msh *ms);
 void	free_cmd_tab(t_msh *ms);
+//clear_redirect.c
+void	clear_filename(char *s);
+void	free_redirect(t_msh *ms);
 //readline.c
 void	rl_get(t_msh *ms);
 int		is_exit(char *s);

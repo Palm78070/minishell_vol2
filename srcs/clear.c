@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:08:03 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/15 12:12:53 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:15:56 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,38 +56,17 @@ void	free_cmd_tab(t_msh *ms)
 	ms->cmd_tb = NULL;
 }
 
-void	free_red_str(t_msh *ms)
-{
-	int	i;
-
-	i = 0;
-	while (i < ms->parse.red_size)
-	{
-		if (ms->io_red[i].out)
-			free(ms->io_red[i].out);
-		if (ms->io_red[i].in)
-			free(ms->io_red[i].in);
-		if (ms->io_red[i].heredoc)
-			free(ms->io_red[i].heredoc);
-		if (ms->io_red[i].append)
-			free(ms->io_red[i].append);
-		++i;
-	}
-}
-
 void	ft_clear(t_msh *ms)
 {
 	if (ms != NULL)
 	{
 		free_cmd_tab(ms);
-		free_red_str(ms);
+		free_redirect(ms);
 		if (ms->line != NULL && ms->line[0] != '\0')
 		{
 			rl_clear_history();
 			free(ms->line);
 		}
-		if (ms->io_red)
-			free(ms->io_red);
 		free(ms);
 	}
 }

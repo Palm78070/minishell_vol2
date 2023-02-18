@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:10:02 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/10 14:10:03 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/18 17:57:43 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,38 +28,62 @@ void	parse_red_out(t_msh *ms, t_lst **lst, int i)
 {
 	if (!list_ok(lst))
 		return ;
+
+	if (ms->redout[i].fd_out != -1)
+	{
+		if (close(ms->redout[i].fd_out) == -1)
+		{
+			free_list(*lst);
+			ft_error("Failed to close file descripter", ms);
+		}
+		ms->redout[i].fd_out = -1;
+	}
 	if (is_env_var((*lst)->data))
 	{
-		ms->io_red[i].out = ft_strdup((*lst)->data);
-		printf("out is %s\n", ms->io_red[i].out);
+		ms->redout[i].filename = insert_end(*lst, (*lst)->data);
+		printf("filename of redout is %s\n", ms->redout[i].filename->data);
+		//printf("filename of redout is\n");
+		//print_list(ms->redout[i].filename);
 	}
 	else
-		ms->io_red[i].fd_out = open((*lst)->data, O_CREAT | O_RDWR, 0644);
-	printf("fd out[%i] is %i\n", i, ms->io_red[i].fd_out);
+		ms->redout[i].fd_out = open((*lst)->data, O_CREAT | O_RDWR, 0777);
+	printf("fd out[%i] is %i\n", i, ms->redout[i].fd_out);
 }
 
 void	parse_red_in(t_msh *ms, t_lst **lst, int i)
 {
-	ms->io_red[i].in = ft_strdup((*lst)->data);
-	printf("in is %s\n", (*lst)->data);
-	printf("fd in[%i] is %i\n", i, ms->io_red[i].fd_in);
+	ms->redin[i].filename = insert_end(*lst, (*lst)->data);
+	printf("filename redin is\n");
+	print_list(ms->redin[i].filename);
 }
 
 void	parse_heredoc(t_msh *ms, t_lst **lst, int i)
 {
-	if (list_ok(lst))
-		ms->io_red[i].heredoc = ft_strdup((*lst)->data);
-	printf("heredoc delim[%i] is %s\n", i, ms->io_red[i].heredoc);
+	if (!list_ok(lst))
+		return ;
+	ms->heredoc[i].delim = insert_end(*lst, (*lst)->data);
+	printf("heredoc delim is\n");
+	print_list(ms->heredoc[i].delim);
 }
 
 void	parse_append(t_msh *ms, t_lst **lst, int i)
 {
+	if (ms->append[i].fd_append != -1)
+	{
+		if (close(ms->append[i].fd_append) == -1)
+		{
+			free_list(*lst);
+			ft_error("Failed to close file descripter", ms);
+		}
+		ms->append[i].fd_append = -1;
+	}
 	if (is_env_var((*lst)->data))
 	{
-		ms->io_red[i].append = (*lst)->data;
-		printf("append is %s\n", ms->io_red[i].append);
+		ms->append[i].filename = insert_end(*lst, (*lst)->data);
+		printf("append is\n");
+		print_list(ms->append[i].filename);
 	}
 	else
-		ms->io_red[i].fd_append = open((*lst)->data, O_CREAT | O_RDWR, 0644);
-	printf("append[%i] is %i\n", i, ms->io_red[i].fd_append);
+		ms->append[i].fd_append = open((*lst)->data, O_CREAT | O_RDWR, 0777);
+	printf("append[%i] is %i\n", i, ms->append[i].fd_append);
 }

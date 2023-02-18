@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:44:51 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/15 12:16:19 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/18 11:01:07 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@ t_msh	*g_ms;
 
 void	init_struct(void)
 {
+
+	g_ms->redout = NULL;
+	g_ms->redin = NULL;
+	g_ms->append = NULL;
+	g_ms->heredoc = NULL;
 	g_ms->line = NULL;
 	g_ms->cmd_tb = NULL;
-	g_ms->io_red = NULL;
 	g_ms->parse.red_size = 0;
 	sigemptyset(&g_ms->sa.sa_mask);
-	g_ms->sa.sa_flags = SA_SIGINFO;
+	g_ms->sa.sa_flags = 0;
 	g_ms->sa.sa_handler = ft_handler;
 }
 
