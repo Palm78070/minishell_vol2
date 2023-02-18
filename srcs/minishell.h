@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:08:37 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/18 16:33:48 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/19 00:38:40 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,44 +50,28 @@ typedef struct s_parse
 {
 	int	cmd_size;
 	int	arg_size;
-	int	red_size;
 }	t_parse;
-
-/*typedef struct s_red
-{
-	int		fd_in;
-	int		fd_out;
-	int		fd_append;
-	char	*in;
-	char	*out;
-	char	*heredoc;
-	char	*append;
-}	t_red;*/
 
 typedef struct s_red_out
 {
-	int	fd_out;
-	t_lst	*filename;
-	//char	*out;
+	t_lst				*filename;
+	int					fd_out;
 }	t_redout;
 
 typedef struct s_red_in
 {
 	t_lst	*filename;
-	//char	*in;
 }	t_redin;
 
 typedef struct s_append
 {
-	int	fd_append;
-	t_lst	*filename;
-	//char	*append;
+	t_lst				*filename;
+	int					fd_append;
 }	t_append;
 
 typedef struct s_heredoc
 {
 	t_lst	*delim;
-	//char	*delim;
 }	t_heredoc;
 
 typedef struct s_msh

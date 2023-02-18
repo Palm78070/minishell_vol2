@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 00:22:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/18 17:40:18 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/19 00:01:32 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_list(t_lst *lst)
 		printf("list is NULL\n");
 		return ;
 	}
-	printf("lexer %s\n", lst->data);
+	printf("%s\n", lst->data);
 	print_list(lst->next);
 }
 

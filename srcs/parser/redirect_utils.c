@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:10:02 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/18 17:57:43 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/19 00:43:04 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	parse_red_out(t_msh *ms, t_lst **lst, int i)
 {
 	if (!list_ok(lst))
 		return ;
-
 	if (ms->redout[i].fd_out != -1)
 	{
 		if (close(ms->redout[i].fd_out) == -1)
@@ -40,10 +39,10 @@ void	parse_red_out(t_msh *ms, t_lst **lst, int i)
 	}
 	if (is_env_var((*lst)->data))
 	{
-		ms->redout[i].filename = insert_end(*lst, (*lst)->data);
-		printf("filename of redout is %s\n", ms->redout[i].filename->data);
-		//printf("filename of redout is\n");
-		//print_list(ms->redout[i].filename);
+		ms->redout[i].filename = insert_end(\
+				ms->redout[i].filename, (*lst)->data);
+		printf("filename of redout is\n");
+		print_list(ms->redout[i].filename);
 	}
 	else
 		ms->redout[i].fd_out = open((*lst)->data, O_CREAT | O_RDWR, 0777);
@@ -52,7 +51,7 @@ void	parse_red_out(t_msh *ms, t_lst **lst, int i)
 
 void	parse_red_in(t_msh *ms, t_lst **lst, int i)
 {
-	ms->redin[i].filename = insert_end(*lst, (*lst)->data);
+	ms->redin[i].filename = insert_end(ms->redin[i].filename, (*lst)->data);
 	printf("filename redin is\n");
 	print_list(ms->redin[i].filename);
 }
@@ -61,7 +60,7 @@ void	parse_heredoc(t_msh *ms, t_lst **lst, int i)
 {
 	if (!list_ok(lst))
 		return ;
-	ms->heredoc[i].delim = insert_end(*lst, (*lst)->data);
+	ms->heredoc[i].delim = insert_end(ms->heredoc[i].delim, (*lst)->data);
 	printf("heredoc delim is\n");
 	print_list(ms->heredoc[i].delim);
 }
@@ -79,7 +78,8 @@ void	parse_append(t_msh *ms, t_lst **lst, int i)
 	}
 	if (is_env_var((*lst)->data))
 	{
-		ms->append[i].filename = insert_end(*lst, (*lst)->data);
+		ms->append[i].filename = insert_end(\
+				ms->append[i].filename, (*lst)->data);
 		printf("append is\n");
 		print_list(ms->append[i].filename);
 	}
