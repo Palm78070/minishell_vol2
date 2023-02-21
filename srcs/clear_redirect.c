@@ -23,13 +23,13 @@ void	clear_filename(char *s)
 
 void	free_simple_redirect(t_msh *ms, int i)
 {
-	if (ms->redout[i].filename)
+	if (ms->redout && ms->redout[i].filename)
 		free_list(ms->redout[i].filename);
-	if (ms->redin[i].filename)
+	if (ms->redin && ms->redin[i].filename)
 		free_list(ms->redin[i].filename);
-	if (ms->append[i].filename)
+	if (ms->append && ms->append[i].filename)
 		free_list(ms->append[i].filename);
-	if (ms->heredoc[i].delim)
+	if (ms->heredoc && ms->heredoc[i].delim)
 		free_list(ms->heredoc[i].delim);
 }
 

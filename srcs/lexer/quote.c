@@ -24,8 +24,8 @@ int	run_from_quote(char *s, int i)
 	quote = 0;
 	if (s[i] && (s[i] == '\'' || s[i] == '"'))
 		quote = s[i];
-	while (quote && s[i] && s[i] != quote)
-		++i;
+	while (quote && s[++i] && s[i] != quote)
+		continue ;
 	return (i);
 }
 
