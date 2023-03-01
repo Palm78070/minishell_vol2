@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:16:50 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/19 00:40:34 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/28 08:26:14 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,13 @@
 void	count_arg_for_tab(t_msh *ms, t_lst *lst)
 {
 	int	count_pipe;
-	int	count_red;
 
 	count_pipe = 0;
-	count_red = 0;
 	while (lst)
 	{
 		ms->state = check_state(lst->data, 0);
 		if (ms->state == PIPE)
 			++count_pipe;
-		else if (is_redirect(ms, lst))
-			++count_red;
 		lst = lst->next;
 	}
 	ms->parse.cmd_size = count_pipe + 1;
@@ -115,10 +111,9 @@ void	create_command_tab(t_msh *ms, t_lst **lst)
 	ms->cmd_tb = (char ***)malloc(sizeof(char **) * (ms->parse.cmd_size + 1));
 	ms->redout = (t_redout *)malloc(sizeof(t_redout) * (ms->parse.cmd_size));
 	ms->redin = (t_redin *)malloc(sizeof(t_redin) * (ms->parse.cmd_size));
-	ms->append = (t_append *)malloc(sizeof(t_append) * (ms->parse.cmd_size));
 	ms->heredoc = (t_heredoc *)malloc(sizeof(t_heredoc) * (ms->parse.cmd_size));
 	if (ms->parse.cmd_size == 0 || !ms->cmd_tb || !ms->redout \
-			|| !ms->redin || !ms->append || !ms->heredoc)
+			|| !ms->redin || !ms->heredoc)
 	{
 		free_list(*lst);
 		ft_error("Failed to malloc in struct\n", ms);

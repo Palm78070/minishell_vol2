@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+struct sigaction	init_sa(void (*ft_handler)(int))
+{
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sa.sa_handler = ft_handler;
+	return (sa);
+}
+
 void	ft_handler(int signum)
 {
 	if (signum == SIGQUIT)
@@ -26,8 +36,14 @@ void	ft_handler(int signum)
 	}
 }
 
-void	ft_signal(t_msh *ms)
+void	ft_handler_child(int signum)
 {
-	sigaction(SIGINT, &ms->sa, 0);
-	sigaction(SIGQUIT, &ms->sa, 0);
+	if (signum == SIGINT)
+		printf("\n");
+}
+
+void	ft_signal(struct sigaction sa)
+{
+	sigaction(SIGINT, &sa, 0);
+	sigaction(SIGQUIT, &sa, 0);
 }

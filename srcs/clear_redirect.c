@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:27:25 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/19 00:05:08 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/02/26 00:42:02 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,20 @@ void	clear_filename(char *s)
 
 void	free_simple_redirect(t_msh *ms, int i)
 {
-	if (ms->redout && ms->redout[i].filename)
-		free_list(ms->redout[i].filename);
-	if (ms->redin && ms->redin[i].filename)
-		free_list(ms->redin[i].filename);
-	if (ms->append && ms->append[i].filename)
-		free_list(ms->append[i].filename);
+	if (ms->redout)
+	{
+		if (ms->redout[i].filename)
+			free_list(ms->redout[i].filename);
+		if (ms->redout[i].fd_out != -1)
+			close(ms->redout[i].fd_out);
+	}
+	if (ms->redin)
+	{
+		if (ms->redin[i].filename)
+			free_list(ms->redin[i].filename);
+		if (ms->redin[i].fd_in != -1)
+			close(ms->redin[i].fd_in);
+	}
 	if (ms->heredoc && ms->heredoc[i].delim)
 		free_list(ms->heredoc[i].delim);
 }
@@ -44,8 +52,6 @@ void	free_redirect(t_msh *ms)
 	ms->redout = NULL;
 	free(ms->redin);
 	ms->redin = NULL;
-	free(ms->append);
-	ms->append = NULL;
 	free(ms->heredoc);
 	ms->heredoc = NULL;
 }

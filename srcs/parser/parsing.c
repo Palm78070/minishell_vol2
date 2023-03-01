@@ -6,16 +6,21 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:02:53 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/18 02:10:05 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/03/01 15:11:24 by psutanth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_parsing(t_msh *ms, t_lst **lst)
+int	ft_parsing(t_msh *ms, t_lst **lst, char **envp)
 {
+	int	retval;
+
+	retval = 0;
 	create_command_tab(ms, lst);
-	print_command_tab(ms);
+	if (ft_expand(ms, envp) == 0)
+		retval = ft_execute(ms, envp);
 	free_redirect(ms);
 	free_cmd_tab(ms);
+	return (retval);
 }

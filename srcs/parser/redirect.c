@@ -6,7 +6,7 @@
 /*   By: rthammat <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:06:09 by rthammat          #+#    #+#             */
-/*   Updated: 2023/02/18 23:49:55 by rthammat         ###   ########.fr       */
+/*   Updated: 2023/03/01 11:51:18 by rthammat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ void	init_redirect(t_msh *ms)
 	{
 		ms->redout[i].fd_out = -1;
 		ms->redout[i].filename = NULL;
+		ms->redout[i].append = 0;
+		ms->redout[i].output = 0;
+		ms->redin[i].fd_in = -1;
 		ms->redin[i].filename = NULL;
-		ms->append[i].fd_append = -1;
-		ms->append[i].filename = NULL;
+		ms->redin[i].output = 0;
 		ms->heredoc[i].delim = NULL;
+		ms->heredoc[i].output = 0;
+		ms->heredoc[i].pipe[0] = -1;
+		ms->heredoc[i].pipe[1] = -1;
 		++i;
 	}
 }
@@ -55,24 +60,6 @@ int	is_all_space(char *s)
 	return (1);
 }
 
-/*char	*ft_filename(t_lst **lst)
-{
-	t_lst	*ptr;
-
-	ptr = *lst;
-	while (ptr && is_all_space(ptr->data))
-	{
-		printf("ptr->data %s\n", ptr->data);
-		ptr = ptr->next;
-	}
-	if (ptr)
-	{
-		printf("filename is %s\n", ptr->data);
-		return (ptr->data);
-	}
-	return (NULL);
-}*/
-
 void	handle_redirect(t_msh *ms, t_lst **lst, int i)
 {
 	int	flag;
@@ -83,14 +70,16 @@ void	handle_redirect(t_msh *ms, t_lst **lst, int i)
 		remove_head_node(lst);
 		while (list_ok(lst) && is_all_space((*lst)->data))
 			remove_head_node(lst);
-		if (flag == REDIRECT_O)
+		if (flag == REDIRECT_O || flag == APPEND)
+		{
+			if (flag == APPEND)
+				ms->redout[i].append = 1;
 			parse_red_out(ms, lst, i);
+		}
 		else if (flag == REDIRECT_I)
 			parse_red_in(ms, lst, i);
 		else if (flag == HEREDOC)
 			parse_heredoc(ms, lst, i);
-		else if (flag == APPEND)
-			parse_append(ms, lst, i);
 		remove_head_node(lst);
 		flag = is_redirect(ms, *lst);
 	}
