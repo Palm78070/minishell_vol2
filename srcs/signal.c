@@ -38,8 +38,14 @@ void	ft_handler(int signum)
 
 void	ft_handler_child(int signum)
 {
+	if (signum == SIGQUIT)
+		printf("Quit: 3\n");
 	if (signum == SIGINT)
+	{
 		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+	}
 }
 
 void	ft_signal(struct sigaction sa)
